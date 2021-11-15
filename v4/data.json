@@ -476,12 +476,16 @@
     }
   },
   "AR": {
+    "delta": {
+      "confirmed": 4,
+      "recovered": 2
+    },
     "delta21_14": {
       "confirmed": 66
     },
     "delta7": {
-      "confirmed": 31,
-      "recovered": 49
+      "confirmed": 35,
+      "recovered": 51
     },
     "districts": {
       "Anjaw": {
@@ -718,12 +722,15 @@
         }
       },
       "Lower Subansiri": {
+        "delta": {
+          "recovered": 1
+        },
         "delta21_14": {
           "confirmed": 5
         },
         "delta7": {
           "confirmed": 1,
-          "recovered": 1
+          "recovered": 2
         },
         "meta": {
           "population": 82839,
@@ -734,7 +741,7 @@
         "total": {
           "confirmed": 3039,
           "deceased": 15,
-          "recovered": 3022,
+          "recovered": 3023,
           "tested": 10564,
           "vaccinated1": 26916,
           "vaccinated2": 18827
@@ -778,11 +785,16 @@
         }
       },
       "Papum Pare": {
+        "delta": {
+          "confirmed": 1,
+          "recovered": 1
+        },
         "delta21_14": {
           "confirmed": 7
         },
         "delta7": {
-          "confirmed": 5
+          "confirmed": 6,
+          "recovered": 1
         },
         "meta": {
           "population": 176385,
@@ -791,9 +803,9 @@
           }
         },
         "total": {
-          "confirmed": 18323,
+          "confirmed": 18324,
           "deceased": 98,
-          "recovered": 18220,
+          "recovered": 18221,
           "tested": 41960,
           "vaccinated1": 141168,
           "vaccinated2": 100258
@@ -841,11 +853,14 @@
         }
       },
       "Tawang": {
+        "delta": {
+          "confirmed": 2
+        },
         "delta21_14": {
           "confirmed": 12
         },
         "delta7": {
-          "confirmed": 6,
+          "confirmed": 8,
           "recovered": 16
         },
         "meta": {
@@ -855,7 +870,7 @@
           }
         },
         "total": {
-          "confirmed": 2589,
+          "confirmed": 2591,
           "deceased": 20,
           "recovered": 2578,
           "tested": 14224,
@@ -931,11 +946,14 @@
         }
       },
       "West Kameng": {
+        "delta": {
+          "confirmed": 1
+        },
         "delta21_14": {
           "confirmed": 1
         },
         "delta7": {
-          "confirmed": 5,
+          "confirmed": 6,
           "recovered": 6
         },
         "meta": {
@@ -945,7 +963,7 @@
           }
         },
         "total": {
-          "confirmed": 3551,
+          "confirmed": 3552,
           "deceased": 14,
           "recovered": 3525,
           "tested": 28155,
@@ -976,7 +994,7 @@
     },
     "meta": {
       "date": "2021-11-14",
-      "last_updated": "2021-11-14T08:21:36+05:30",
+      "last_updated": "2021-11-15T08:04:25+05:30",
       "notes": "[July 25]: All numbers corresponding to Papum Pare and Captial Complex are tracked under Papum Pare district.",
       "population": 1504000,
       "tested": {
@@ -985,9 +1003,9 @@
       }
     },
     "total": {
-      "confirmed": 55226,
+      "confirmed": 55230,
       "deceased": 291,
-      "recovered": 54907,
+      "recovered": 54909,
       "tested": 1185436,
       "vaccinated1": 771875,
       "vaccinated2": 534486
@@ -3071,12 +3089,16 @@
     }
   },
   "GA": {
+    "delta": {
+      "confirmed": 18,
+      "recovered": 40
+    },
     "delta21_14": {
       "confirmed": 222
     },
     "delta7": {
-      "confirmed": 155,
-      "recovered": 186
+      "confirmed": 173,
+      "recovered": 226
     },
     "districts": {
       "North Goa": {
@@ -3098,23 +3120,27 @@
         }
       },
       "Unknown": {
+        "delta": {
+          "confirmed": 18,
+          "recovered": 40
+        },
         "delta21_14": {
           "confirmed": 222
         },
         "delta7": {
-          "confirmed": 155,
-          "recovered": 186
+          "confirmed": 173,
+          "recovered": 226
         },
         "total": {
-          "confirmed": 178280,
+          "confirmed": 178298,
           "deceased": 3411,
-          "recovered": 174775
+          "recovered": 174815
         }
       }
     },
     "meta": {
       "date": "2021-11-14",
-      "last_updated": "2021-11-13T22:04:16+05:30",
+      "last_updated": "2021-11-15T08:04:25+05:30",
       "population": 1540000,
       "tested": {
         "date": "2021-10-31",
@@ -3122,9 +3148,9 @@
       }
     },
     "total": {
-      "confirmed": 178280,
+      "confirmed": 178298,
       "deceased": 3411,
-      "recovered": 174775,
+      "recovered": 174815,
       "tested": 1468399,
       "vaccinated1": 1262568,
       "vaccinated2": 911114
@@ -8190,7 +8216,8 @@
   "MN": {
     "delta": {
       "confirmed": 50,
-      "deceased": 3
+      "deceased": 3,
+      "recovered": 51
     },
     "delta21_14": {
       "confirmed": 439
@@ -8198,7 +8225,7 @@
     "delta7": {
       "confirmed": 396,
       "deceased": 15,
-      "recovered": 230
+      "recovered": 281
     },
     "districts": {
       "Bishnupur": {
@@ -8343,7 +8370,8 @@
       "Unknown": {
         "delta": {
           "confirmed": 50,
-          "deceased": 3
+          "deceased": 3,
+          "recovered": 51
         },
         "delta21_14": {
           "confirmed": 439
@@ -8351,18 +8379,18 @@
         "delta7": {
           "confirmed": 396,
           "deceased": 15,
-          "recovered": 230
+          "recovered": 281
         },
         "total": {
           "confirmed": 124482,
           "deceased": 1949,
-          "recovered": 121645
+          "recovered": 121696
         }
       }
     },
     "meta": {
       "date": "2021-11-14",
-      "last_updated": "2021-11-15T07:47:22+05:30",
+      "last_updated": "2021-11-15T08:04:25+05:30",
       "notes": "[Dec 14]:824 out of 980 recovered cases are backdated.",
       "population": 3103000,
       "tested": {
@@ -8373,7 +8401,7 @@
     "total": {
       "confirmed": 124482,
       "deceased": 1949,
-      "recovered": 121645,
+      "recovered": 121696,
       "tested": 1367673,
       "vaccinated1": 1249436,
       "vaccinated2": 719413
@@ -13804,22 +13832,22 @@
   },
   "TT": {
     "delta": {
-      "confirmed": 4595,
+      "confirmed": 4617,
       "deceased": 91,
-      "recovered": 4640
+      "recovered": 4733
     },
     "delta21_14": {
       "confirmed": 96069
     },
     "delta7": {
-      "confirmed": 75058,
+      "confirmed": 75080,
       "deceased": 2527,
       "other": 8,
-      "recovered": 79060
+      "recovered": 79153
     },
     "meta": {
       "date": "2021-11-14",
-      "last_updated": "2021-11-15T07:47:22+05:30",
+      "last_updated": "2021-11-15T08:04:25+05:30",
       "population": 1332900000,
       "tested": {
         "date": "2021-10-31",
@@ -13827,10 +13855,10 @@
       }
     },
     "total": {
-      "confirmed": 34439818,
+      "confirmed": 34439840,
       "deceased": 463642,
       "other": 13206,
-      "recovered": 33831805,
+      "recovered": 33831898,
       "tested": 609201294,
       "vaccinated1": 732371508,
       "vaccinated2": 330752697
