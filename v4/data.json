@@ -415,12 +415,16 @@
     }
   },
   "AR": {
+    "delta": {
+      "confirmed": 2,
+      "recovered": 4
+    },
     "delta21_14": {
       "confirmed": 69
     },
     "delta7": {
-      "confirmed": 30,
-      "recovered": 40
+      "confirmed": 32,
+      "recovered": 44
     },
     "districts": {
       "Anjaw": {
@@ -487,11 +491,14 @@
         }
       },
       "East Siang": {
+        "delta": {
+          "confirmed": 2
+        },
         "delta21_14": {
           "confirmed": 14
         },
         "delta7": {
-          "confirmed": 3,
+          "confirmed": 5,
           "recovered": 2
         },
         "meta": {
@@ -501,7 +508,7 @@
           }
         },
         "total": {
-          "confirmed": 3217,
+          "confirmed": 3219,
           "deceased": 17,
           "recovered": 3195,
           "tested": 21867,
@@ -739,8 +746,14 @@
         }
       },
       "Shi Yomi": {
+        "delta": {
+          "recovered": 1
+        },
         "delta21_14": {
           "confirmed": 1
+        },
+        "delta7": {
+          "recovered": 1
         },
         "meta": {
           "population": 13310,
@@ -750,7 +763,7 @@
         },
         "total": {
           "confirmed": 265,
-          "recovered": 262,
+          "recovered": 263,
           "tested": 2169,
           "vaccinated1": 6910,
           "vaccinated2": 5663
@@ -866,9 +879,12 @@
         }
       },
       "West Kameng": {
+        "delta": {
+          "recovered": 3
+        },
         "delta7": {
           "confirmed": 2,
-          "recovered": 3
+          "recovered": 6
         },
         "meta": {
           "population": 87013,
@@ -879,7 +895,7 @@
         "total": {
           "confirmed": 3552,
           "deceased": 14,
-          "recovered": 3525,
+          "recovered": 3528,
           "tested": 28155,
           "vaccinated1": 55710,
           "vaccinated2": 40321
@@ -911,7 +927,7 @@
     },
     "meta": {
       "date": "2021-11-17",
-      "last_updated": "2021-11-17T09:00:34+05:30",
+      "last_updated": "2021-11-17T22:25:18+05:30",
       "notes": "[July 25]: All numbers corresponding to Papum Pare and Captial Complex are tracked under Papum Pare district.",
       "population": 1504000,
       "tested": {
@@ -920,9 +936,9 @@
       }
     },
     "total": {
-      "confirmed": 55240,
+      "confirmed": 55242,
       "deceased": 291,
-      "recovered": 54913,
+      "recovered": 54917,
       "tested": 1185436,
       "vaccinated1": 771875,
       "vaccinated2": 534486
@@ -12987,22 +13003,22 @@
   },
   "TT": {
     "delta": {
-      "confirmed": 844,
+      "confirmed": 846,
       "deceased": 6,
-      "recovered": 358
+      "recovered": 362
     },
     "delta21_14": {
       "confirmed": 88117
     },
     "delta7": {
-      "confirmed": 65985,
+      "confirmed": 65987,
       "deceased": 1980,
       "other": 2,
-      "recovered": 74796
+      "recovered": 74800
     },
     "meta": {
       "date": "2021-11-17",
-      "last_updated": "2021-11-17T21:38:24+05:30",
+      "last_updated": "2021-11-17T22:25:18+05:30",
       "population": 1332900000,
       "tested": {
         "date": "2021-10-31",
@@ -13010,10 +13026,10 @@
       }
     },
     "total": {
-      "confirmed": 34465444,
+      "confirmed": 34465446,
       "deceased": 464224,
       "other": 13206,
-      "recovered": 33864484,
+      "recovered": 33864488,
       "tested": 609201294,
       "vaccinated1": 732371508,
       "vaccinated2": 330752697
