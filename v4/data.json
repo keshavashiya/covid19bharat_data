@@ -1,11 +1,14 @@
 {
   "AN": {
+    "delta": {
+      "recovered": 2
+    },
     "delta21_14": {
       "confirmed": 14
     },
     "delta7": {
       "confirmed": 9,
-      "recovered": 7
+      "recovered": 9
     },
     "districts": {
       "Nicobars": {
@@ -36,23 +39,26 @@
         }
       },
       "Unknown": {
+        "delta": {
+          "recovered": 2
+        },
         "delta21_14": {
           "confirmed": 14
         },
         "delta7": {
           "confirmed": 9,
-          "recovered": 7
+          "recovered": 9
         },
         "total": {
           "confirmed": 7680,
           "deceased": 129,
-          "recovered": 7536
+          "recovered": 7538
         }
       }
     },
     "meta": {
       "date": "2021-11-16",
-      "last_updated": "2021-11-15T13:17:08+05:30",
+      "last_updated": "2021-11-17T12:02:38+05:30",
       "population": 397000,
       "tested": {
         "date": "2021-10-31",
@@ -62,7 +68,7 @@
     "total": {
       "confirmed": 7680,
       "deceased": 129,
-      "recovered": 7536,
+      "recovered": 7538,
       "tested": 598033,
       "vaccinated1": 294001,
       "vaccinated2": 200157
@@ -2110,21 +2116,29 @@
     }
   },
   "CH": {
+    "delta": {
+      "confirmed": 1,
+      "recovered": 1
+    },
     "delta21_14": {
       "confirmed": 32
     },
     "delta7": {
-      "confirmed": 16,
-      "recovered": 15
+      "confirmed": 17,
+      "recovered": 16
     },
     "districts": {
       "Chandigarh": {
+        "delta": {
+          "confirmed": 1,
+          "recovered": 1
+        },
         "delta21_14": {
           "confirmed": 32
         },
         "delta7": {
-          "confirmed": 16,
-          "recovered": 15
+          "confirmed": 17,
+          "recovered": 16
         },
         "meta": {
           "population": 1055450,
@@ -2134,9 +2148,9 @@
           }
         },
         "total": {
-          "confirmed": 65390,
+          "confirmed": 65391,
           "deceased": 820,
-          "recovered": 64540,
+          "recovered": 64541,
           "tested": 792851,
           "vaccinated1": 926035,
           "vaccinated2": 546981
@@ -2145,7 +2159,7 @@
     },
     "meta": {
       "date": "2021-11-16",
-      "last_updated": "2021-11-16T12:20:29+05:30",
+      "last_updated": "2021-11-17T12:02:38+05:30",
       "population": 1179000,
       "tested": {
         "date": "2021-10-31",
@@ -2153,9 +2167,9 @@
       }
     },
     "total": {
-      "confirmed": 65390,
+      "confirmed": 65391,
       "deceased": 820,
-      "recovered": 64540,
+      "recovered": 64541,
       "tested": 792851,
       "vaccinated1": 926035,
       "vaccinated2": 546981
@@ -13812,22 +13826,22 @@
   },
   "TT": {
     "delta": {
-      "confirmed": 9993,
-      "deceased": 282,
-      "recovered": 12251
+      "confirmed": 10002,
+      "deceased": 283,
+      "recovered": 12260
     },
     "delta21_14": {
       "confirmed": 92861
     },
     "delta7": {
-      "confirmed": 78078,
-      "deceased": 2322,
+      "confirmed": 78087,
+      "deceased": 2323,
       "other": 8,
-      "recovered": 87389
+      "recovered": 87398
     },
     "meta": {
       "date": "2021-11-16",
-      "last_updated": "2021-11-17T10:03:36+05:30",
+      "last_updated": "2021-11-17T12:02:38+05:30",
       "population": 1332900000,
       "tested": {
         "date": "2021-10-31",
@@ -13835,10 +13849,10 @@
       }
     },
     "total": {
-      "confirmed": 34464591,
-      "deceased": 464217,
+      "confirmed": 34464600,
+      "deceased": 464218,
       "other": 13206,
-      "recovered": 33864117,
+      "recovered": 33864126,
       "tested": 609201294,
       "vaccinated1": 732371508,
       "vaccinated2": 330752697
@@ -15290,14 +15304,19 @@
     }
   },
   "UT": {
+    "delta": {
+      "confirmed": 8,
+      "deceased": 1,
+      "recovered": 6
+    },
     "delta21_14": {
       "confirmed": 67
     },
     "delta7": {
-      "confirmed": 84,
-      "deceased": 1,
+      "confirmed": 92,
+      "deceased": 2,
       "other": 8,
-      "recovered": 52
+      "recovered": 58
     },
     "districts": {
       "Almora": {
@@ -15579,13 +15598,20 @@
         }
       },
       "Unknown": {
+        "delta": {
+          "confirmed": 8,
+          "deceased": 1,
+          "recovered": 6
+        },
         "delta7": {
-          "confirmed": 7,
-          "recovered": 11
+          "confirmed": 15,
+          "deceased": 1,
+          "recovered": 17
         },
         "total": {
-          "confirmed": 7,
-          "recovered": 11
+          "confirmed": 15,
+          "deceased": 1,
+          "recovered": 17
         }
       },
       "Uttarkashi": {
@@ -15615,7 +15641,7 @@
     },
     "meta": {
       "date": "2021-11-16",
-      "last_updated": "2021-11-16T16:18:30+05:30",
+      "last_updated": "2021-11-17T12:02:38+05:30",
       "notes": "[Oct 30]: Metric of capturing the testing data has switched to \"Samples Tested\" from \"Samples Collected\"\n[Jun 30th'21]:145 confirmed cases and 218 deceased cases added of previous days after reconciliation with district and ICMR portal",
       "population": 11141000,
       "tested": {
@@ -15624,10 +15650,10 @@
       }
     },
     "total": {
-      "confirmed": 344051,
-      "deceased": 7403,
+      "confirmed": 344059,
+      "deceased": 7404,
       "other": 6159,
-      "recovered": 330314,
+      "recovered": 330320,
       "tested": 7781148,
       "vaccinated1": 7478017,
       "vaccinated2": 3898342
