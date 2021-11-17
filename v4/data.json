@@ -2869,12 +2869,16 @@
     }
   },
   "GA": {
+    "delta": {
+      "confirmed": 36,
+      "recovered": 29
+    },
     "delta21_14": {
       "confirmed": 145
     },
     "delta7": {
-      "confirmed": 134,
-      "recovered": 171
+      "confirmed": 170,
+      "recovered": 200
     },
     "districts": {
       "North Goa": {
@@ -2896,23 +2900,27 @@
         }
       },
       "Unknown": {
+        "delta": {
+          "confirmed": 36,
+          "recovered": 29
+        },
         "delta21_14": {
           "confirmed": 145
         },
         "delta7": {
-          "confirmed": 134,
-          "recovered": 171
+          "confirmed": 170,
+          "recovered": 200
         },
         "total": {
-          "confirmed": 178346,
+          "confirmed": 178382,
           "deceased": 3411,
-          "recovered": 174850
+          "recovered": 174879
         }
       }
     },
     "meta": {
       "date": "2021-11-17",
-      "last_updated": "2021-11-17T10:03:36+05:30",
+      "last_updated": "2021-11-17T21:19:11+05:30",
       "population": 1540000,
       "tested": {
         "date": "2021-10-31",
@@ -2920,9 +2928,9 @@
       }
     },
     "total": {
-      "confirmed": 178346,
+      "confirmed": 178382,
       "deceased": 3411,
-      "recovered": 174850,
+      "recovered": 174879,
       "tested": 1468399,
       "vaccinated1": 1262568,
       "vaccinated2": 911114
@@ -7656,13 +7664,18 @@
     }
   },
   "MN": {
+    "delta": {
+      "confirmed": 51,
+      "deceased": 2,
+      "recovered": 34
+    },
     "delta21_14": {
       "confirmed": 426
     },
     "delta7": {
-      "confirmed": 338,
-      "deceased": 13,
-      "recovered": 512
+      "confirmed": 389,
+      "deceased": 15,
+      "recovered": 546
     },
     "districts": {
       "Bishnupur": {
@@ -7805,24 +7818,29 @@
         }
       },
       "Unknown": {
+        "delta": {
+          "confirmed": 51,
+          "deceased": 2,
+          "recovered": 34
+        },
         "delta21_14": {
           "confirmed": 426
         },
         "delta7": {
-          "confirmed": 338,
-          "deceased": 13,
-          "recovered": 512
+          "confirmed": 389,
+          "deceased": 15,
+          "recovered": 546
         },
         "total": {
-          "confirmed": 124588,
-          "deceased": 1953,
-          "recovered": 122056
+          "confirmed": 124639,
+          "deceased": 1955,
+          "recovered": 122090
         }
       }
     },
     "meta": {
       "date": "2021-11-17",
-      "last_updated": "2021-11-17T09:00:34+05:30",
+      "last_updated": "2021-11-17T21:19:11+05:30",
       "notes": "[Dec 14]:824 out of 980 recovered cases are backdated.",
       "population": 3103000,
       "tested": {
@@ -7831,20 +7849,23 @@
       }
     },
     "total": {
-      "confirmed": 124588,
-      "deceased": 1953,
-      "recovered": 122056,
+      "confirmed": 124639,
+      "deceased": 1955,
+      "recovered": 122090,
       "tested": 1367673,
       "vaccinated1": 1249436,
       "vaccinated2": 719413
     }
   },
   "MP": {
+    "delta": {
+      "confirmed": 5
+    },
     "delta21_14": {
       "confirmed": 68
     },
     "delta7": {
-      "confirmed": 57,
+      "confirmed": 62,
       "recovered": 50
     },
     "districts": {
@@ -7984,11 +8005,14 @@
         }
       },
       "Bhopal": {
+        "delta": {
+          "confirmed": 4
+        },
         "delta21_14": {
           "confirmed": 22
         },
         "delta7": {
-          "confirmed": 21
+          "confirmed": 25
         },
         "meta": {
           "population": 2368145,
@@ -7997,7 +8021,7 @@
           }
         },
         "total": {
-          "confirmed": 123594,
+          "confirmed": 123598,
           "deceased": 972,
           "recovered": 122121,
           "tested": 245166,
@@ -8210,11 +8234,14 @@
         }
       },
       "Indore": {
+        "delta": {
+          "confirmed": 1
+        },
         "delta21_14": {
           "confirmed": 23
         },
         "delta7": {
-          "confirmed": 16
+          "confirmed": 17
         },
         "meta": {
           "population": 3272335,
@@ -8223,7 +8250,7 @@
           }
         },
         "total": {
-          "confirmed": 153268,
+          "confirmed": 153269,
           "deceased": 1391,
           "recovered": 151410,
           "tested": 780266,
@@ -8741,7 +8768,7 @@
     },
     "meta": {
       "date": "2021-11-17",
-      "last_updated": "2021-11-16T23:00:19+05:30",
+      "last_updated": "2021-11-17T21:19:11+05:30",
       "notes": "[14 Oct'20]: 4469 confirmed cases and 4469 recoveries added in MP bulletin as reconciliation with private labs and hospitals\n[12 July'21] :1478 deceased cases have been added after reconciliation of deceased cases records from Home Isolation(208), Private Hospitals(762) and other districts data (508)",
       "population": 82232000,
       "tested": {
@@ -8750,7 +8777,7 @@
       }
     },
     "total": {
-      "confirmed": 792972,
+      "confirmed": 792977,
       "deceased": 10524,
       "recovered": 782338,
       "tested": 20294225,
@@ -12946,22 +12973,22 @@
   },
   "TT": {
     "delta": {
-      "confirmed": 741,
-      "deceased": 4,
-      "recovered": 294
+      "confirmed": 833,
+      "deceased": 6,
+      "recovered": 357
     },
     "delta21_14": {
       "confirmed": 88117
     },
     "delta7": {
-      "confirmed": 65882,
-      "deceased": 1978,
+      "confirmed": 65974,
+      "deceased": 1980,
       "other": 2,
-      "recovered": 74732
+      "recovered": 74795
     },
     "meta": {
       "date": "2021-11-17",
-      "last_updated": "2021-11-17T19:59:56+05:30",
+      "last_updated": "2021-11-17T21:19:11+05:30",
       "population": 1332900000,
       "tested": {
         "date": "2021-10-31",
@@ -12969,10 +12996,10 @@
       }
     },
     "total": {
-      "confirmed": 34465341,
-      "deceased": 464222,
+      "confirmed": 34465433,
+      "deceased": 464224,
       "other": 13206,
-      "recovered": 33864420,
+      "recovered": 33864483,
       "tested": 609201294,
       "vaccinated1": 732371508,
       "vaccinated2": 330752697
