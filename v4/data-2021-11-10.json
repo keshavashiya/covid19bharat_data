@@ -6899,7 +6899,7 @@
   },
   "LA": {
     "delta": {
-      "confirmed": 13,
+      "confirmed": 15,
       "recovered": 11,
       "vaccinated1": 101,
       "vaccinated2": 704
@@ -6908,9 +6908,9 @@
       "confirmed": 39
     },
     "delta7": {
-      "confirmed": 93,
-      "deceased": 1,
-      "recovered": 48,
+      "confirmed": 92,
+      "deceased": 2,
+      "recovered": 53,
       "vaccinated1": 521,
       "vaccinated2": 3666
     },
@@ -6918,6 +6918,10 @@
       "Kargil": {
         "delta21_14": {
           "confirmed": 4
+        },
+        "delta7": {
+          "deceased": 1,
+          "recovered": 1
         },
         "meta": {
           "population": 143000,
@@ -6927,16 +6931,25 @@
         },
         "total": {
           "confirmed": 3619,
-          "deceased": 58,
-          "recovered": 3556,
+          "deceased": 59,
+          "recovered": 3557,
           "tested": 37471,
           "vaccinated1": 87221,
           "vaccinated2": 64300
         }
       },
       "Leh": {
+        "delta": {
+          "confirmed": 15,
+          "recovered": 11
+        },
         "delta21_14": {
           "confirmed": 35
+        },
+        "delta7": {
+          "confirmed": 92,
+          "deceased": 1,
+          "recovered": 52
         },
         "meta": {
           "population": 147000,
@@ -6945,28 +6958,12 @@
           }
         },
         "total": {
-          "confirmed": 17343,
-          "deceased": 150,
-          "recovered": 17131,
+          "confirmed": 17468,
+          "deceased": 151,
+          "recovered": 17191,
           "tested": 72597,
           "vaccinated1": 121577,
           "vaccinated2": 87980
-        }
-      },
-      "Unknown": {
-        "delta": {
-          "confirmed": 13,
-          "recovered": 11
-        },
-        "delta7": {
-          "confirmed": 93,
-          "deceased": 1,
-          "recovered": 48
-        },
-        "total": {
-          "confirmed": 110,
-          "deceased": 1,
-          "recovered": 51
         }
       }
     },
@@ -6981,9 +6978,9 @@
       }
     },
     "total": {
-      "confirmed": 21072,
-      "deceased": 209,
-      "recovered": 20738,
+      "confirmed": 21087,
+      "deceased": 210,
+      "recovered": 20748,
       "tested": 555568,
       "vaccinated1": 209636,
       "vaccinated2": 157800
@@ -14015,7 +14012,7 @@
   },
   "TT": {
     "delta": {
-      "confirmed": 12909,
+      "confirmed": 12911,
       "deceased": 350,
       "other": 6,
       "recovered": 12924,
@@ -14025,10 +14022,10 @@
       "confirmed": 104536
     },
     "delta7": {
-      "confirmed": 79924,
-      "deceased": 2543,
+      "confirmed": 79923,
+      "deceased": 2544,
       "other": 7,
-      "recovered": 85256,
+      "recovered": 85261,
       "tested": 7555297
     },
     "meta": {
@@ -14039,10 +14036,10 @@
       }
     },
     "total": {
-      "confirmed": 34399724,
-      "deceased": 462212,
+      "confirmed": 34399739,
+      "deceased": 462213,
       "other": 13204,
-      "recovered": 33790382,
+      "recovered": 33790392,
       "tested": 619902064,
       "vaccinated1": 732371508,
       "vaccinated2": 330752697
