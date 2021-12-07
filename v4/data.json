@@ -921,6 +921,8 @@
   },
   "AS": {
     "delta": {
+      "deceased": 1,
+      "recovered": 128,
       "tested": 33239
     },
     "delta21_14": {
@@ -928,8 +930,8 @@
     },
     "delta7": {
       "confirmed": 906,
-      "deceased": 23,
-      "recovered": 964,
+      "deceased": 24,
+      "recovered": 1092,
       "tested": 1234231,
       "vaccinated1": 365626,
       "vaccinated2": 803143
@@ -1229,19 +1231,23 @@
         }
       },
       "Unknown": {
+        "delta": {
+          "deceased": 1,
+          "recovered": 128
+        },
         "delta21_14": {
           "confirmed": 1368
         },
         "delta7": {
           "confirmed": 906,
-          "deceased": 23,
-          "recovered": 964
+          "deceased": 24,
+          "recovered": 1092
         },
         "total": {
           "confirmed": 617758,
-          "deceased": 6126,
+          "deceased": 6127,
           "other": 1347,
-          "recovered": 609088
+          "recovered": 609216
         }
       },
       "West Karbi Anglong": {
@@ -1256,7 +1262,7 @@
     },
     "meta": {
       "date": "2021-12-07",
-      "last_updated": "2021-12-07T22:05:56+05:30",
+      "last_updated": "2021-12-07T22:44:01+05:30",
       "notes": "[Jan 1]: 1347 cases i.e Covid +'tive patients dead for other reasons have been deducted fom active count.",
       "population": 34293000,
       "tested": {
@@ -1265,9 +1271,9 @@
     },
     "total": {
       "confirmed": 617758,
-      "deceased": 6126,
+      "deceased": 6127,
       "other": 1347,
-      "recovered": 609088,
+      "recovered": 609216,
       "tested": 25946273,
       "vaccinated1": 21514060,
       "vaccinated2": 12837120
@@ -13781,23 +13787,23 @@
   "TT": {
     "delta": {
       "confirmed": 7970,
-      "deceased": 172,
+      "deceased": 173,
       "other": 2,
-      "recovered": 9133
+      "recovered": 9261
     },
     "delta21_14": {
       "confirmed": 69382
     },
     "delta7": {
       "confirmed": 60698,
-      "deceased": 4734,
+      "deceased": 4735,
       "other": 15,
-      "recovered": 61831,
+      "recovered": 61959,
       "tested": 7034699
     },
     "meta": {
       "date": "2021-12-07",
-      "last_updated": "2021-12-07T22:27:46+05:30",
+      "last_updated": "2021-12-07T22:44:01+05:30",
       "population": 1332900000,
       "tested": {
         "date": "2021-12-06"
@@ -13805,9 +13811,9 @@
     },
     "total": {
       "confirmed": 34655029,
-      "deceased": 473985,
+      "deceased": 473986,
       "other": 13222,
-      "recovered": 34079831,
+      "recovered": 34079959,
       "tested": 649447014,
       "vaccinated1": 732371508,
       "vaccinated2": 330752697
