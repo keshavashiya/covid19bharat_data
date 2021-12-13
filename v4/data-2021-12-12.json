@@ -976,9 +976,9 @@
   },
   "AS": {
     "delta": {
-      "confirmed": 134,
+      "confirmed": 275,
       "deceased": 3,
-      "recovered": 119,
+      "recovered": 289,
       "tested": 22846,
       "vaccinated1": 3114,
       "vaccinated2": 35279
@@ -987,9 +987,9 @@
       "confirmed": 1186
     },
     "delta7": {
-      "confirmed": 999,
+      "confirmed": 1140,
       "deceased": 13,
-      "recovered": 1007,
+      "recovered": 1177,
       "tested": 217423,
       "vaccinated1": 114087,
       "vaccinated2": 1010849
@@ -1290,23 +1290,23 @@
       },
       "Unknown": {
         "delta": {
-          "confirmed": 134,
+          "confirmed": 275,
           "deceased": 3,
-          "recovered": 119
+          "recovered": 289
         },
         "delta21_14": {
           "confirmed": 1186
         },
         "delta7": {
-          "confirmed": 999,
+          "confirmed": 1140,
           "deceased": 13,
-          "recovered": 1007
+          "recovered": 1177
         },
         "total": {
-          "confirmed": 618575,
+          "confirmed": 618716,
           "deceased": 6133,
           "other": 1347,
-          "recovered": 609973
+          "recovered": 610143
         }
       },
       "West Karbi Anglong": {
@@ -1329,10 +1329,10 @@
       }
     },
     "total": {
-      "confirmed": 618575,
+      "confirmed": 618716,
       "deceased": 6133,
       "other": 1347,
-      "recovered": 609973,
+      "recovered": 610143,
       "tested": 26094256,
       "vaccinated1": 21601111,
       "vaccinated2": 13711672
@@ -4813,8 +4813,8 @@
   },
   "JH": {
     "delta": {
-      "confirmed": 11,
-      "recovered": 10,
+      "confirmed": 22,
+      "recovered": 21,
       "vaccinated1": 55495,
       "vaccinated2": 99254
     },
@@ -4822,8 +4822,8 @@
       "confirmed": 81
     },
     "delta7": {
-      "confirmed": 89,
-      "recovered": 85,
+      "confirmed": 100,
+      "recovered": 96,
       "tested": 150641,
       "vaccinated1": 415808,
       "vaccinated2": 773732
@@ -4865,8 +4865,12 @@
         }
       },
       "Deoghar": {
+        "delta": {
+          "recovered": 1
+        },
         "delta7": {
-          "confirmed": 1
+          "confirmed": 1,
+          "recovered": 1
         },
         "meta": {
           "population": 1491879,
@@ -4877,27 +4881,31 @@
         "total": {
           "confirmed": 10845,
           "deceased": 114,
-          "recovered": 10730,
+          "recovered": 10731,
           "tested": 6951,
           "vaccinated1": 570716,
           "vaccinated2": 234108
         }
       },
       "Dhanbad": {
+        "delta": {
+          "confirmed": 4,
+          "recovered": 2
+        },
         "delta21_14": {
           "confirmed": 2
         },
         "delta7": {
-          "confirmed": 3,
-          "recovered": 4
+          "confirmed": 7,
+          "recovered": 6
         },
         "meta": {
           "population": 2682662
         },
         "total": {
-          "confirmed": 16627,
+          "confirmed": 16631,
           "deceased": 382,
-          "recovered": 16232,
+          "recovered": 16234,
           "vaccinated1": 1191943,
           "vaccinated2": 451480
         }
@@ -4925,20 +4933,24 @@
         }
       },
       "East Singhbhum": {
+        "delta": {
+          "confirmed": 2,
+          "recovered": 3
+        },
         "delta21_14": {
           "confirmed": 33
         },
         "delta7": {
-          "confirmed": 13,
-          "recovered": 17
+          "confirmed": 15,
+          "recovered": 20
         },
         "meta": {
           "population": 2291032
         },
         "total": {
-          "confirmed": 52150,
+          "confirmed": 52152,
           "deceased": 1048,
-          "recovered": 51067,
+          "recovered": 51070,
           "vaccinated1": 1425969,
           "vaccinated2": 665387
         }
@@ -5153,20 +5165,24 @@
         }
       },
       "Ranchi": {
+        "delta": {
+          "confirmed": 4,
+          "recovered": 5
+        },
         "delta21_14": {
           "confirmed": 25
         },
         "delta7": {
-          "confirmed": 20,
-          "recovered": 13
+          "confirmed": 24,
+          "recovered": 18
         },
         "meta": {
           "population": 2912022
         },
         "total": {
-          "confirmed": 86417,
+          "confirmed": 86421,
           "deceased": 1585,
-          "recovered": 84776,
+          "recovered": 84781,
           "vaccinated1": 1515670,
           "vaccinated2": 659683
         }
@@ -5204,18 +5220,21 @@
         }
       },
       "Simdega": {
+        "delta": {
+          "confirmed": 1
+        },
         "delta21_14": {
           "confirmed": 1
         },
         "delta7": {
-          "confirmed": 2,
+          "confirmed": 3,
           "recovered": 5
         },
         "meta": {
           "population": 599813
         },
         "total": {
-          "confirmed": 7202,
+          "confirmed": 7203,
           "deceased": 92,
           "recovered": 7109,
           "vaccinated1": 278015,
@@ -5265,9 +5284,9 @@
       }
     },
     "total": {
-      "confirmed": 349446,
+      "confirmed": 349457,
       "deceased": 5141,
-      "recovered": 344182,
+      "recovered": 344193,
       "tested": 17285599,
       "vaccinated1": 17287340,
       "vaccinated2": 9127844
@@ -14145,19 +14164,19 @@
   },
   "TT": {
     "delta": {
-      "confirmed": 7571,
+      "confirmed": 7723,
       "deceased": 197,
-      "recovered": 7976,
+      "recovered": 8157,
       "tested": 855692
     },
     "delta21_14": {
       "confirmed": 61522
     },
     "delta7": {
-      "confirmed": 56946,
+      "confirmed": 57098,
       "deceased": 1751,
       "other": 68,
-      "recovered": 62111,
+      "recovered": 62292,
       "tested": 8413384,
       "vaccinated1": 14313403,
       "vaccinated2": 35761158
@@ -14169,10 +14188,10 @@
       }
     },
     "total": {
-      "confirmed": 34697803,
+      "confirmed": 34697955,
       "deceased": 475346,
       "other": 13285,
-      "recovered": 34123472,
+      "recovered": 34123653,
       "tested": 656672451,
       "vaccinated1": 814514675,
       "vaccinated2": 514869555
