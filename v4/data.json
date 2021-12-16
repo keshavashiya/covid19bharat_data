@@ -7078,7 +7078,8 @@
   "LA": {
     "delta": {
       "confirmed": 16,
-      "recovered": 27,
+      "deceased": -1,
+      "recovered": 28,
       "tested": 795,
       "vaccinated1": 84,
       "vaccinated2": 164
@@ -7088,20 +7089,24 @@
     },
     "delta7": {
       "confirmed": 116,
-      "deceased": 1,
-      "recovered": 182,
+      "recovered": 183,
       "tested": 5116,
       "vaccinated1": 484,
       "vaccinated2": 967
     },
     "districts": {
       "Kargil": {
+        "delta": {
+          "deceased": -1,
+          "recovered": 1
+        },
         "delta21_14": {
           "confirmed": 16
         },
         "delta7": {
           "confirmed": 4,
-          "recovered": 9
+          "deceased": -1,
+          "recovered": 10
         },
         "meta": {
           "population": 143000,
@@ -7111,8 +7116,8 @@
         },
         "total": {
           "confirmed": 3661,
-          "deceased": 59,
-          "recovered": 3588,
+          "deceased": 58,
+          "recovered": 3589,
           "tested": 37471,
           "vaccinated1": 87239,
           "vaccinated2": 64500
@@ -7149,7 +7154,7 @@
     },
     "meta": {
       "date": "2021-12-15",
-      "last_updated": "2021-12-16T13:17:38+05:30",
+      "last_updated": "2021-12-16T14:03:48+05:30",
       "population": 293000,
       "tested": {
         "date": "2021-12-15",
@@ -7161,8 +7166,8 @@
     },
     "total": {
       "confirmed": 21865,
-      "deceased": 217,
-      "recovered": 21485,
+      "deceased": 216,
+      "recovered": 21486,
       "tested": 589322,
       "vaccinated1": 213124,
       "vaccinated2": 174234
@@ -14176,9 +14181,9 @@
   "TT": {
     "delta": {
       "confirmed": 8033,
-      "deceased": 344,
+      "deceased": 343,
       "other": 7,
-      "recovered": 7951,
+      "recovered": 7952,
       "tested": 1399946,
       "vaccinated1": 1664585,
       "vaccinated2": 4757918
@@ -14188,16 +14193,16 @@
     },
     "delta7": {
       "confirmed": 53415,
-      "deceased": 2029,
+      "deceased": 2028,
       "other": 69,
-      "recovered": 58826,
+      "recovered": 58827,
       "tested": 8297635,
       "vaccinated1": 13616793,
       "vaccinated2": 34987907
     },
     "meta": {
       "date": "2021-12-15",
-      "last_updated": "2021-12-16T13:17:38+05:30",
+      "last_updated": "2021-12-16T14:03:48+05:30",
       "population": 1332900000,
       "tested": {
         "date": "2021-12-15"
@@ -14208,9 +14213,9 @@
     },
     "total": {
       "confirmed": 34718457,
-      "deceased": 476193,
+      "deceased": 476192,
       "other": 13292,
-      "recovered": 34147601,
+      "recovered": 34147602,
       "tested": 660247762,
       "vaccinated1": 821106148,
       "vaccinated2": 531430838
