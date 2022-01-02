@@ -5747,6 +5747,7 @@
   "JH": {
     "delta": {
       "confirmed": 1007,
+      "recovered": 105,
       "vaccinated1": 25239,
       "vaccinated2": 21626
     },
@@ -5755,8 +5756,8 @@
     },
     "delta7": {
       "confirmed": 2940,
-      "deceased": 1,
-      "recovered": 123,
+      "deceased": 2,
+      "recovered": 349,
       "tested": 153417,
       "vaccinated1": 423540,
       "vaccinated2": 633880
@@ -6297,6 +6298,19 @@
           "vaccinated2": 226478
         }
       },
+      "Unknown": {
+        "delta": {
+          "recovered": 105
+        },
+        "delta7": {
+          "deceased": 1,
+          "recovered": 226
+        },
+        "total": {
+          "deceased": 1,
+          "recovered": 226
+        }
+      },
       "West Singhbhum": {
         "delta": {
           "confirmed": 53
@@ -6324,7 +6338,7 @@
     },
     "meta": {
       "date": "2022-01-01",
-      "last_updated": "2022-01-02T12:20:27+05:30",
+      "last_updated": "2022-01-02T15:38:28+05:30",
       "population": 37403000,
       "tested": {
         "date": "2021-12-30",
@@ -6336,8 +6350,8 @@
     },
     "total": {
       "confirmed": 352746,
-      "deceased": 5143,
-      "recovered": 344472,
+      "deceased": 5144,
+      "recovered": 344698,
       "tested": 18006895,
       "vaccinated1": 18552068,
       "vaccinated2": 11228920
@@ -16372,7 +16386,7 @@
       "confirmed": 27732,
       "deceased": 284,
       "other": 23,
-      "recovered": 9121,
+      "recovered": 9226,
       "tested": 1082376,
       "vaccinated1": 746195,
       "vaccinated2": 2042660
@@ -16382,16 +16396,16 @@
     },
     "delta7": {
       "confirmed": 102353,
-      "deceased": 2086,
+      "deceased": 2087,
       "other": 60,
-      "recovered": 53933,
+      "recovered": 54159,
       "tested": 8074404,
       "vaccinated1": 10054754,
       "vaccinated2": 30585826
     },
     "meta": {
       "date": "2022-01-01",
-      "last_updated": "2022-01-02T12:38:05+05:30",
+      "last_updated": "2022-01-02T15:38:28+05:30",
       "population": 1332900000,
       "tested": {
         "date": "2022-01-01"
@@ -16402,9 +16416,9 @@
     },
     "total": {
       "confirmed": 34889019,
-      "deceased": 481793,
+      "deceased": 481794,
       "other": 13378,
-      "recovered": 34276518,
+      "recovered": 34276744,
       "tested": 680071486,
       "vaccinated1": 845603928,
       "vaccinated2": 608809077
