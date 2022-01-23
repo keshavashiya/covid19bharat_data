@@ -8,6 +8,15 @@ import yaml
 from collections import defaultdict, OrderedDict
 from datetime import datetime, timedelta
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+import traceback
+from pathlib import Path
+
+load_dotenv()
+
+ROOT_DIR = Path(__file__).parents[2]
+print(ROOT_DIR)
 
 # Set logging level
 logging.basicConfig(stream=sys.stdout,
@@ -24,8 +33,8 @@ INDIA_DATE = datetime.strftime(INDIA_DATETIME, "%Y-%m-%d")
 MIN_DATE = "2020-01-01"
 
 # Input/Output root directory
-ROOT_DIR = Path("tmp")
-CSV_DIR = ROOT_DIR / "csv" / "latest"
+# ROOT_DIR = Path("tmp")
+CSV_DIR = ROOT_DIR / "tmp" / "csv" / "latest"
 # State codes to be used as API keys
 STATE_META_DATA = CSV_DIR / "states_meta.csv"
 DISTRICT_META_DATA = CSV_DIR / "districts_meta.csv"
@@ -45,7 +54,8 @@ DISTRICT_TEST_DATA = CSV_DIR / "district_testing.csv"
 STATE_VACCINATION_DATA = CSV_DIR / "vaccine_doses_statewise_v2.csv"
 DISTRICT_VACCINATION_DATA = CSV_DIR / "cowin_vaccine_data_districtwise.csv"
 # Old data.json
-DATA_OLD = ROOT_DIR / "data-old.min.json"
+DATA_OLD = ROOT_DIR / "tmp" / "data-old.min.json"
+print(DATA_OLD)
 
 ## For adding metadata
 # For state notes and last updated
@@ -54,7 +64,7 @@ STATE_WISE = CSV_DIR / "state_wise.csv"
 DISTRICT_WISE = CSV_DIR / "district_wise.csv"
 
 # API outputs
-OUTPUT_DIR = ROOT_DIR / "v4"
+OUTPUT_DIR = ROOT_DIR / "tmp" / "v4"
 OUTPUT_MIN_DIR = OUTPUT_DIR / "min"
 OUTPUT_DATA_PREFIX = "data"
 OUTPUT_TIMESERIES_PREFIX = "timeseries"
@@ -101,10 +111,16 @@ ICMR_DATA_DICT = {
         "key": "Second Dose Administered",
         "source": "Source 4"
     },
+    "precautionary": {
+        "key": "Precautionary Dose Administered",
+        "source": "Source 4"
+    },
 }
 VACCINATION_DATA_DICT = {
     "vaccinated1": "First Dose Administered",
     "vaccinated2": "Second Dose Administered",
+    "precautionary": "Precautionary Dose Administered",
+
 }
 ALL_STATISTICS = [*RAW_DATA_MAP.values(), *ICMR_DATA_DICT.keys()]
 # CSV Headers
@@ -369,40 +385,41 @@ def parse_icmr(reader):
   for j, entry in enumerate(reader):
     for statistic, statistic_dict in ICMR_DATA_DICT.items():
       key = statistic_dict["key"]
-      count_str = entry[key].strip()
+      if key in entry:
+        count_str = entry[key].strip()
 
-      if not count_str:
-        continue
-
-      try:
-        fdate = datetime.strptime(entry["Tested As Of"].strip(), "%d/%m/%Y")
-        date = datetime.strftime(fdate, "%Y-%m-%d")
-        if date < MIN_DATE or date > INDIA_DATE:
-          # Entries from future dates will be ignored and logged
-          logging.warning(
-              f"[L{j + 2}] [Future/past date: {entry['Tested As Of']}]")
+        if not count_str:
           continue
-      except ValueError:
-        # Bad timestamp
-        logging.warning(f"[L{j + 2}] [Bad date: {entry['Tested As Of']}]")
-        continue
 
-      try:
-        count = int(count_str)
-      except ValueError:
-        logging.warning(
-            f"[L{j + 2}] [{entry['Tested As Of']}] [Bad {key}: {entry[key]}]")
-        continue
+        try:
+          fdate = datetime.strptime(entry["Tested As Of"].strip(), "%d/%m/%Y")
+          date = datetime.strftime(fdate, "%Y-%m-%d")
+          if date < MIN_DATE or date > INDIA_DATE:
+            # Entries from future dates will be ignored and logged
+            logging.warning(
+                f"[L{j + 2}] [Future/past date: {entry['Tested As Of']}]")
+            continue
+        except ValueError:
+          # Bad timestamp
+          logging.warning(f"[L{j + 2}] [Bad date: {entry['Tested As Of']}]")
+          continue
 
-      if count:
-        data[date]["TT"]["total"][statistic] = count
+        try:
+          count = int(count_str)
+        except ValueError:
+          logging.warning(
+              f"[L{j + 2}] [{entry['Tested As Of']}] [Bad {key}: {entry[key]}]")
+          continue
 
-        # Add source/last updated
-        meta_key = ("vaccinated" if statistic
-                    in {"vaccinated1", "vaccinated2"} else statistic)
-        data[date]["TT"]["meta"][meta_key]["source"] = entry[
-            statistic_dict["source"]].strip()
-        data[date]["TT"]["meta"][meta_key]["date"] = date
+        if count:
+          data[date]["TT"]["total"][statistic] = count
+
+          # Add source/last updated
+          meta_key = ("vaccinated" if statistic
+                      in {"vaccinated1", "vaccinated2"} else statistic)
+          data[date]["TT"]["meta"][meta_key]["source"] = entry[
+              statistic_dict["source"]].strip()
+          data[date]["TT"]["meta"][meta_key]["date"] = date
 
 
 def parse_state_test(reader):
@@ -648,22 +665,25 @@ def parse_district_vaccination(reader):
 
       for statistic in VACCINATION_DATA_DICT:
         key = VACCINATION_DATA_DICT[statistic].lower()
-        count_str = row[j2 + column_keys[key]].strip()
-        try:
-          count = int(count_str)
-        except ValueError:
-          if count_str:
-            logging.warning(
-                f"[L{i + 3} {column_str(j2 + column_keys[key] + 1)}] [{state}: {district}] Bad {key}: {row[j2 + column_keys[key]]}"
-            )
-          continue
 
-        if count:
-          inc(
-              data[date][state]["districts"][district]["total"],
-              statistic,
-              count,
-          )
+        # To handle the empty precautionary column in the data before 15-Jan-2022
+        if key in column_keys:
+          count_str = row[j2 + column_keys[key]].strip()
+          try:
+            count = int(count_str)
+          except ValueError:
+            if count_str:
+              logging.warning(
+                  f"[L{i + 3} {column_str(j2 + column_keys[key] + 1)}] [{state}: {district}] Bad {key}: {row[j2 + column_keys[key]]}"
+              )
+            continue
+
+          if count:
+            inc(
+                data[date][state]["districts"][district]["total"],
+                statistic,
+                count,
+            )
 
 
 def contains(raw_data, keys):
@@ -1152,281 +1172,287 @@ def write_csvs(writer_states, writer_districts):
 
 
 if __name__ == "__main__":
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("PARSER V4 START".center(PRINT_WIDTH))
 
-  # Get possible state codes, populations
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Parsing state metadata...")
-  with open(STATE_META_DATA) as f:
-    logging.info(f"File: {STATE_META_DATA.name}")
-    reader = csv.DictReader(f)
-    parse_state_metadata(reader)
-  logging.info("Done!")
+  try:
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("PARSER V4 START".center(PRINT_WIDTH))
 
-  # Get all actual district names
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Parsing districts list...")
-  with open(DISTRICT_LIST) as f:
-    logging.info(f"File: {DISTRICT_LIST.name}")
-    reader = csv.DictReader(f)
-    parse_district_list(reader)
-  logging.info("Done!")
-
-  # Get district populations
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Parsing district metadata...")
-  with open(DISTRICT_META_DATA) as f:
-    logging.info(f"File: {DISTRICT_META_DATA.name}")
-    reader = csv.DictReader(f)
-    parse_district_metadata(reader)
-  logging.info("Done!")
-
-  # Parse raw_data's
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Parsing raw_data...")
-  i = 1
-  while True:
-    fn = CSV_DIR / RAW_DATA.format(n=i)
-    if not fn.is_file():
-      break
-    with open(fn) as f:
-      logging.info(f"File: {fn.name}")
+    # Get possible state codes, populations
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Parsing state metadata...")
+    with open(STATE_META_DATA) as f:
+      logging.info(f"File: {STATE_META_DATA.name}")
       reader = csv.DictReader(f)
-      parse_raw_data(reader, i)
-    i += 1
-  logging.info("Done!")
+      parse_state_metadata(reader)
+    logging.info("Done!")
 
-  # Parse additional deceased/recovered info not in raw_data 1 and 2
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Parsing deaths_recoveries...")
-  for i in [1, 2]:
-    fn = CSV_DIR / OUTCOME_DATA.format(n=i)
-    with open(fn) as f:
-      logging.info(f"File: {fn.name}")
+    # Get all actual district names
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Parsing districts list...")
+    with open(DISTRICT_LIST) as f:
+      logging.info(f"File: {DISTRICT_LIST.name}")
       reader = csv.DictReader(f)
-      parse_outcome(reader, i)
-  logging.info("Done!")
+      parse_district_list(reader)
+    logging.info("Done!")
 
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Adding district data for 26th April...")
-  # Parse gospel district data for 26th April
-  with open(DISTRICT_DATA_GOSPEL) as f:
-    logging.info(f"File: {DISTRICT_DATA_GOSPEL.name}")
-    reader = csv.DictReader(f)
-    parse_district_gospel(reader)
-  logging.info("Done!")
+    # Get district populations
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Parsing district metadata...")
+    with open(DISTRICT_META_DATA) as f:
+      logging.info(f"File: {DISTRICT_META_DATA.name}")
+      reader = csv.DictReader(f)
+      parse_district_metadata(reader)
+    logging.info("Done!")
 
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Parsing ICMR test data for India...")
-  with open(ICMR_TEST_DATA) as f:
-    logging.info(f"File: {ICMR_TEST_DATA.name}")
-    reader = csv.DictReader(f)
-    parse_icmr(reader)
-  logging.info("Done!")
+    # Parse raw_data's
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Parsing raw_data...")
+    i = 1
+    while True:
+      fn = CSV_DIR / RAW_DATA.format(n=i)
+      if not fn.is_file():
+        break
+      with open(fn) as f:
+        logging.info(f"File: {fn.name}")
+        reader = csv.DictReader(f)
+        parse_raw_data(reader, i)
+      i += 1
+    logging.info("Done!")
 
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Parsing test data for all states...")
-  with open(STATE_TEST_DATA) as f:
-    logging.info(f"File: {STATE_TEST_DATA.name}")
-    reader = csv.DictReader(f)
-    parse_state_test(reader)
-  logging.info("Done!")
+    # Parse additional deceased/recovered info not in raw_data 1 and 2
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Parsing deaths_recoveries...")
+    for i in [1, 2]:
+      fn = CSV_DIR / OUTCOME_DATA.format(n=i)
+      with open(fn) as f:
+        logging.info(f"File: {fn.name}")
+        reader = csv.DictReader(f)
+        parse_outcome(reader, i)
+    logging.info("Done!")
 
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Parsing test data for districts...")
-  with open(DISTRICT_TEST_DATA) as f:
-    logging.info(f"File: {DISTRICT_TEST_DATA.name}")
-    reader = csv.reader(f)
-    parse_district_test(reader)
-  logging.info("Done!")
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Adding district data for 26th April...")
+    # Parse gospel district data for 26th April
+    with open(DISTRICT_DATA_GOSPEL) as f:
+      logging.info(f"File: {DISTRICT_DATA_GOSPEL.name}")
+      reader = csv.DictReader(f)
+      parse_district_gospel(reader)
+    logging.info("Done!")
 
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Parsing vaccination data for states...")
-  with open(STATE_VACCINATION_DATA) as f:
-    logging.info(f"File: {STATE_VACCINATION_DATA.name}")
-    reader = csv.DictReader(f)
-    parse_state_vaccination(reader)
-  logging.info("Done!")
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Parsing ICMR test data for India...")
+    with open(ICMR_TEST_DATA) as f:
+      logging.info(f"File: {ICMR_TEST_DATA.name}")
+      reader = csv.DictReader(f)
+      parse_icmr(reader)
+    logging.info("Done!")
 
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Parsing vaccination data for districts...")
-  with open(DISTRICT_VACCINATION_DATA) as f:
-    logging.info(f"File: {DISTRICT_VACCINATION_DATA.name}")
-    reader = csv.reader(f)
-    parse_district_vaccination(reader)
-  logging.info("Done!")
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Parsing test data for all states...")
+    with open(STATE_TEST_DATA) as f:
+      logging.info(f"File: {STATE_TEST_DATA.name}")
+      reader = csv.DictReader(f)
+      parse_state_test(reader)
+    logging.info("Done!")
 
-  # Fill delta values for tested
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Generating daily tested/vaccinated values...")
-  fill_deltas()
-  logging.info("Done!")
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Parsing test data for districts...")
+    with open(DISTRICT_TEST_DATA) as f:
+      logging.info(f"File: {DISTRICT_TEST_DATA.name}")
+      reader = csv.reader(f)
+      parse_district_test(reader)
+    logging.info("Done!")
 
-  # Generate total (cumulative) data points till 26th April
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Generating cumulative CRD values till 26th April...")
-  accumulate(end_date=GOSPEL_DATE)
-  logging.info("Done!")
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Parsing vaccination data for states...")
+    with open(STATE_VACCINATION_DATA) as f:
+      logging.info(f"File: {STATE_VACCINATION_DATA.name}")
+      reader = csv.DictReader(f)
+      parse_state_vaccination(reader)
+    logging.info("Done!")
 
-  # Fill Unknown district counts for 26th April
-  logging.info("-" * PRINT_WIDTH)
-  logging.info(f"Filling {UNKNOWN_DISTRICT_KEY} data for 26th April...")
-  fill_gospel_unknown()
-  logging.info("Done!")
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Parsing vaccination data for districts...")
+    with open(DISTRICT_VACCINATION_DATA) as f:
+      logging.info(f"File: {DISTRICT_VACCINATION_DATA.name}")
+      reader = csv.reader(f)
+      parse_district_vaccination(reader)
+    logging.info("Done!")
 
-  # Generate rest of total (cumulative) data points
-  logging.info("-" * PRINT_WIDTH)
-  logging.info(
-      "Generating cumulative CRD values from 26th April afterwards...")
-  accumulate(start_after_date=GOSPEL_DATE)
-  logging.info("Done!")
+    # Fill delta values for tested
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Generating daily tested/vaccinated values...")
+    fill_deltas()
+    logging.info("Done!")
 
-  # Generate 7 day delta values
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Generating 7-day delta values...")
-  accumulate_days(7)
-  logging.info("Done!")
+    # Generate total (cumulative) data points till 26th April
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Generating cumulative CRD values till 26th April...")
+    accumulate(end_date=GOSPEL_DATE)
+    logging.info("Done!")
 
-  # Generate 14-21 day confirmed delta values
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Generating 14-21 day confirmed delta values...")
-  accumulate_days(21, offset=14, statistics=["confirmed"])
-  logging.info("Done!")
+    # Fill Unknown district counts for 26th April
+    logging.info("-" * PRINT_WIDTH)
+    logging.info(f"Filling {UNKNOWN_DISTRICT_KEY} data for 26th April...")
+    fill_gospel_unknown()
+    logging.info("Done!")
 
-  # Strip empty values ({}, 0, '', None) before adding metadata
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Stripping empty values...")
-  data = stripper(data)
-  logging.info("Done!")
+    # Generate rest of total (cumulative) data points
+    logging.info("-" * PRINT_WIDTH)
+    logging.info(
+        "Generating cumulative CRD values from 26th April afterwards...")
+    accumulate(start_after_date=GOSPEL_DATE)
+    logging.info("Done!")
 
-  # Add population figures
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Adding state/district populations...")
-  add_populations()
-  logging.info("Done!")
+    # Generate 7 day delta values
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Generating 7-day delta values...")
+    accumulate_days(7)
+    logging.info("Done!")
 
-  # Add state notes
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Adding state and district notes...")
-  with open(STATE_WISE) as f:
-    logging.info(f"File: {STATE_WISE.name}")
-    reader = csv.DictReader(f)
-    add_state_notes(reader)
+    # Generate 14-21 day confirmed delta values
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Generating 14-21 day confirmed delta values...")
+    accumulate_days(21, offset=14, statistics=["confirmed"])
+    logging.info("Done!")
 
-  # Add district notes
-  with open(DISTRICT_WISE) as f:
-    logging.info(f"File: {DISTRICT_WISE.name}")
-    reader = csv.DictReader(f)
-    add_district_notes(reader)
-  logging.info("Done!")
+    # Strip empty values ({}, 0, '', None) before adding metadata
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Stripping empty values...")
+    data = stripper(data)
+    logging.info("Done!")
 
-  # Add last updated time for states
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Adding last updated time for states...")
-  with open(DATA_OLD) as f:
-    logging.info(f"File: {DATA_OLD.name}")
-    data_old = json.load(f, )
-    add_state_last_updated(data_old)
-  logging.info("Done!")
+    # Add population figures
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Adding state/district populations...")
+    add_populations()
+    logging.info("Done!")
 
-  # Generate timeseries
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Generating timeseries...")
-  generate_timeseries(districts=True)
-  logging.info("Done!")
+    # Add state notes
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Adding state and district notes...")
+    with open(STATE_WISE) as f:
+      logging.info(f"File: {STATE_WISE.name}")
+      reader = csv.DictReader(f)
+      add_state_notes(reader)
 
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Dumping JSON APIs...")
-  OUTPUT_MIN_DIR.mkdir(parents=True, exist_ok=True)
+    # Add district notes
+    with open(DISTRICT_WISE) as f:
+      logging.info(f"File: {DISTRICT_WISE.name}")
+      reader = csv.DictReader(f)
+      add_district_notes(reader)
+    logging.info("Done!")
 
-  # Dump prettified full data json
-  #  fn = f"{OUTPUT_DATA_PREFIX}-all"
-  # Only dump minified data-all.json
-  #  with open((OUTPUT_DIR / fn).with_suffix('.json'), 'w') as f:
-  #    json.dump(data, f, indent=2, sort_keys=True)
-  # Dump minified full data
-  #  with open((OUTPUT_MIN_DIR / fn).with_suffix(".min.json"), "w") as f:
-  #  json.dump(data, f, separators=(",", ":"), sort_keys=True)
+    # Add last updated time for states
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Adding last updated time for states...")
+    with open(DATA_OLD) as f:
+      logging.info(f"File: {DATA_OLD.name}")
+      data_old = json.load(f, )
+      add_state_last_updated(data_old)
+    logging.info("Done!")
 
-  # Split data and dump separate json for each date
-  for i, date in enumerate(sorted(data)):
-    curr_data = data[date]
-    if i < len(data) - 1:
-      fn = f"{OUTPUT_DATA_PREFIX}-{date}"
-    else:
-      fn = OUTPUT_DATA_PREFIX
+    # Generate timeseries
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Generating timeseries...")
+    generate_timeseries(districts=True)
+    logging.info("Done!")
 
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Dumping JSON APIs...")
+    OUTPUT_MIN_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Dump prettified full data json
+    #  fn = f"{OUTPUT_DATA_PREFIX}-all"
+    # Only dump minified data-all.json
+    #  with open((OUTPUT_DIR / fn).with_suffix('.json'), 'w') as f:
+    #    json.dump(data, f, indent=2, sort_keys=True)
+    # Dump minified full data
+    #  with open((OUTPUT_MIN_DIR / fn).with_suffix(".min.json"), "w") as f:
+    #  json.dump(data, f, separators=(",", ":"), sort_keys=True)
+
+
+    # Split data and dump separate json for each date in v4 folder
+    for i, date in enumerate(sorted(data)):
+      curr_data = data[date]
+      if i < len(data) - 1:
+        fn = f"{OUTPUT_DATA_PREFIX}-{date}"
+      else:
+        fn = OUTPUT_DATA_PREFIX
+
+      with open((OUTPUT_DIR / fn).with_suffix(".json"), "w") as f:
+        json.dump(curr_data, f, indent=2, sort_keys=True)
+      # Minified
+      with open((OUTPUT_MIN_DIR / fn).with_suffix(".min.json"), "w") as f:
+        json.dump(curr_data, f, separators=(",", ":"), sort_keys=True)
+
+    # Dump full timeseries json
+    #  fn = f"{OUTPUT_TIMESERIES_PREFIX}-all"
+    # Only dump minified timeseries-all.json
+    #  with open((OUTPUT_DIR / fn).with_suffix('.json'), 'w') as f:
+    #    json.dump(timeseries, f, indent=2, sort_keys=True)
+    #  with open((OUTPUT_MIN_DIR / fn).with_suffix(".min.json"), "w") as f:
+    #  json.dump(timeseries, f, separators=(",", ":"), sort_keys=True)
+
+    # Dump state timeseries json
+    fn = OUTPUT_TIMESERIES_PREFIX
+    # Filter out district time-series
+    timeseries_states = {
+        state: {
+            "dates": timeseries[state]["dates"]
+        }
+        for state in timeseries
+    }
     with open((OUTPUT_DIR / fn).with_suffix(".json"), "w") as f:
-      json.dump(curr_data, f, indent=2, sort_keys=True)
-    # Minified
+      json.dump(timeseries_states, f, indent=2, sort_keys=True)
     with open((OUTPUT_MIN_DIR / fn).with_suffix(".min.json"), "w") as f:
-      json.dump(curr_data, f, separators=(",", ":"), sort_keys=True)
+      json.dump(timeseries_states, f, separators=(",", ":"), sort_keys=True)
 
-  # Dump full timeseries json
-  #  fn = f"{OUTPUT_TIMESERIES_PREFIX}-all"
-  # Only dump minified timeseries-all.json
-  #  with open((OUTPUT_DIR / fn).with_suffix('.json'), 'w') as f:
-  #    json.dump(timeseries, f, indent=2, sort_keys=True)
-  #  with open((OUTPUT_MIN_DIR / fn).with_suffix(".min.json"), "w") as f:
-  #  json.dump(timeseries, f, separators=(",", ":"), sort_keys=True)
+    # Split data and dump separate json for each state
+    for state in timeseries:
+      if state == UNASSIGNED_STATE_CODE:
+        continue
+      state_data = {state: timeseries[state]}
+      fn = f"{OUTPUT_TIMESERIES_PREFIX}-{state}"
 
-  # Dump state timeseries json
-  fn = OUTPUT_TIMESERIES_PREFIX
-  # Filter out district time-series
-  timeseries_states = {
-      state: {
-          "dates": timeseries[state]["dates"]
-      }
-      for state in timeseries
-  }
-  with open((OUTPUT_DIR / fn).with_suffix(".json"), "w") as f:
-    json.dump(timeseries_states, f, indent=2, sort_keys=True)
-  with open((OUTPUT_MIN_DIR / fn).with_suffix(".min.json"), "w") as f:
-    json.dump(timeseries_states, f, separators=(",", ":"), sort_keys=True)
+      with open((OUTPUT_DIR / fn).with_suffix(".json"), "w") as f:
+        json.dump(state_data, f, indent=2, sort_keys=True)
+      # Minified
+      with open((OUTPUT_MIN_DIR / fn).with_suffix(".min.json"), "w") as f:
+        json.dump(state_data, f, separators=(",", ":"), sort_keys=True)
+    logging.info("Done!")
 
-  # Split data and dump separate json for each state
-  for state in timeseries:
-    if state == UNASSIGNED_STATE_CODE:
-      continue
-    state_data = {state: timeseries[state]}
-    fn = f"{OUTPUT_TIMESERIES_PREFIX}-{state}"
+    # Tally final date counts with statewise API
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Comparing data with statewise sheet...")
+    with open(STATE_WISE) as f:
+      logging.info(f"File: {STATE_WISE.name}")
+      reader = csv.DictReader(f)
+      tally_statewise(reader)
+    logging.info("Done!")
 
-    with open((OUTPUT_DIR / fn).with_suffix(".json"), "w") as f:
-      json.dump(state_data, f, indent=2, sort_keys=True)
-    # Minified
-    with open((OUTPUT_MIN_DIR / fn).with_suffix(".min.json"), "w") as f:
-      json.dump(state_data, f, separators=(",", ":"), sort_keys=True)
-  logging.info("Done!")
+    # Tally final date counts with districtwise API
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Comparing data with districtwise sheet...")
+    with open(DISTRICT_WISE) as f:
+      logging.info(f"File: {DISTRICT_WISE.name}")
+      reader = csv.DictReader(f)
+      tally_districtwise(reader)
+    logging.info("Done!")
 
-  # Tally final date counts with statewise API
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Comparing data with statewise sheet...")
-  with open(STATE_WISE) as f:
-    logging.info(f"File: {STATE_WISE.name}")
-    reader = csv.DictReader(f)
-    tally_statewise(reader)
-  logging.info("Done!")
+    # Dump state/district CSVs
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("Dumping CSVs...")
+    with open(OUTPUT_STATES_CSV, "w") as f1:
+      writer1 = csv.writer(f1)
+      with open(OUTPUT_DISTRICTS_CSV, "w") as f2:
+        writer2 = csv.writer(f2)
+        write_csvs(writer1, writer2)
+    logging.info("Done!")
 
-  # Tally final date counts with districtwise API
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Comparing data with districtwise sheet...")
-  with open(DISTRICT_WISE) as f:
-    logging.info(f"File: {DISTRICT_WISE.name}")
-    reader = csv.DictReader(f)
-    tally_districtwise(reader)
-  logging.info("Done!")
+    logging.info("-" * PRINT_WIDTH)
+    logging.info("PARSER V4 END".center(PRINT_WIDTH))
+    logging.info("-" * PRINT_WIDTH)
 
-  # Dump state/district CSVs
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("Dumping CSVs...")
-  with open(OUTPUT_STATES_CSV, "w") as f1:
-    writer1 = csv.writer(f1)
-    with open(OUTPUT_DISTRICTS_CSV, "w") as f2:
-      writer2 = csv.writer(f2)
-      write_csvs(writer1, writer2)
-  logging.info("Done!")
-
-  logging.info("-" * PRINT_WIDTH)
-  logging.info("PARSER V4 END".center(PRINT_WIDTH))
-  logging.info("-" * PRINT_WIDTH)
+  except Exception as err:
+    traceback.print_tb(err.__traceback__)
