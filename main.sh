@@ -23,6 +23,8 @@ source log4bash.sh
 source setenv.sh
 set -eu
 
+pip install -r requirements.txt
+
 # Set to dev branch by default
 active_branch=dev
 
