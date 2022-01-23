@@ -6,7 +6,7 @@ on:
     - cron: "*/20 * * * *"
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   update-json-data:
@@ -48,7 +48,7 @@ jobs:
       - name: show job status
         if: always()
         run: |
-          git checkout main
+          git checkout dev
           node lib/notify_tg.js $status
         env:
           status: ${{job.status}}
