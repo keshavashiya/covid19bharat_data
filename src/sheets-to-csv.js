@@ -51,6 +51,7 @@ const PUBLISHED_SHEET_ID_35 = "2PACX-1vT-ZBr4mrHY2PNiX_eG7BnOfBfLNbRNfvvgYlSZCfp
 const PUBLISHED_SHEET_ID_36 = "2PACX-1vTrt_V4yW0jd91chhz9BJZOgJtFrsaZEa_gPlrFfQToBuuNDDkn01w0K0GdnjCdklyzFz84A1hFbSUN";
 const PUBLISHED_SHEET_ID_37 = "2PACX-1vT1nasvyPHE2gVXu14urA6KHXuUzsRXtS3Qr6JORpa5Anm2TEr5KxJv11EvcE6UAx0Cj2Ja4j6IWR7g";
 const PUBLISHED_SHEET_ID_38 = "2PACX-1vRtf-9xJACCy0N6tqWQLEbTswAnX2h7_emrm2yh6-R9hw-AetGiH1PxRSJ9WzLfjAnF0Ci_JCSMvlPy";
+const PUBLISHED_SHEET_ID_39 = "2PACX-1vTY8YlID8IVfSQlwGhJCiIHAdPENfMg-VZcJgehX6qbHaC0EFQm5V_sf1PTeExER5rDqmuPLYfKJ5w7";
 
 const SHEETS_V1 = [
   ["raw_data1", "0"],
@@ -101,7 +102,8 @@ const SHEETS_V34 = [["raw_data34", "0"]];
 const SHEETS_V35 = [["raw_data35", "0"]];
 const SHEETS_V36 = [["raw_data36", "0"]];
 const SHEETS_V37 = [["raw_data37", "0"]];
-const SHEETS_V38 = [
+const SHEETS_V38 = [["raw_data37", "0"]];
+const SHEETS_V39 = [
   ["raw_data38", "0"],
   ["state_wise", "1896310216"],
   ["state_wise_daily", "1395461826"],
@@ -188,6 +190,7 @@ async function sheetsToCSV(sheets, pubId) {
   // await sheetsToCSV(SHEETS_V34, PUBLISHED_SHEET_ID_34);
   // await sheetsToCSV(SHEETS_V35, PUBLISHED_SHEET_ID_35);
   // await sheetsToCSV(SHEETS_V36, PUBLISHED_SHEET_ID_36);
-  await sheetsToCSV(SHEETS_V37, PUBLISHED_SHEET_ID_37);
+  // await sheetsToCSV(SHEETS_V37, PUBLISHED_SHEET_ID_37);
   await sheetsToCSV(SHEETS_V38, PUBLISHED_SHEET_ID_38);
+  await sheetsToCSV(SHEETS_V39, PUBLISHED_SHEET_ID_39);
 })();
