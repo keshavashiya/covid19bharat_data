@@ -102,9 +102,9 @@ const SHEETS_V34 = [["raw_data34", "0"]];
 const SHEETS_V35 = [["raw_data35", "0"]];
 const SHEETS_V36 = [["raw_data36", "0"]];
 const SHEETS_V37 = [["raw_data37", "0"]];
-const SHEETS_V38 = [["raw_data37", "0"]];
+const SHEETS_V38 = [["raw_data38", "0"]];
 const SHEETS_V39 = [
-  ["raw_data38", "0"],
+  ["raw_data39", "0"],
   ["state_wise", "1896310216"],
   ["state_wise_daily", "1395461826"],
   ["sources_list", "704389477"],
