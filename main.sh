@@ -122,22 +122,20 @@ if [ "${MODE}" == 'prod' ]; then
   # Add all the files to the repo and commit
   git add .
   set +e  # Grep succeeds with nonzero exit codes to show results.
+  # Commit the changes if there are new modifications or files.
+  if git status | grep 'new file\|modified'
+  then
+    echo "Prod mode: Committing all changes"
+    git commit -am "data updated on - $(date)"
+    git remote set-url "${ORIGIN_BRANCH}" "$repo_uri" # includes access token
+    git push --force-with-lease "${ORIGIN_BRANCH}" "${GH_PAGES_BRANCH}"
+    rm -rf ../../${CODE_DIR}/
+  fi
+
 else
   git config --global user.name "${GITHUB_NAME}"
   git config --global user.email "${GITHUB_ACTOR}"
   echo "Dev mode: So not committing..."
 fi
-
-# Commit the changes if there are new modifications or files.
-if git status | grep 'new file\|modified'
-then
-  echo "Prod mode: Committing all changes"
-  git commit -am "data updated on - $(date)"
-  git remote set-url "${ORIGIN_BRANCH}" "$repo_uri" # includes access token
-  git push --force-with-lease "${ORIGIN_BRANCH}" "${GH_PAGES_BRANCH}"
-  rm -rf ../../${CODE_DIR}/
-fi
-
-
 
 echo "Script successfully completed"
