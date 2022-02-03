@@ -103,23 +103,12 @@ ICMR_DATA_DICT = {
         "key": "Total Samples Tested",
         "source": "Source"
     },
-    "vaccinated1": {
-        "key": "First Dose Administered",
-        "source": "Source 4"
-    },
-    "vaccinated2": {
-        "key": "Second Dose Administered",
-        "source": "Source 4"
-    },
-    "precautionary": {
-        "key": "Precautionary Dose Administered",
-        "source": "Source 4"
-    },
 }
 VACCINATION_DATA_DICT = {
     "vaccinated1": "First Dose Administered",
     "vaccinated2": "Second Dose Administered",
     "precautionary": "Precautionary Dose Administered",
+    "totaldose": "Total Doses Administered",
 
 }
 ALL_STATISTICS = [*RAW_DATA_MAP.values(), *ICMR_DATA_DICT.keys()]
@@ -600,7 +589,10 @@ def parse_state_vaccination(reader):
 
       state_name = entry["State"].strip().lower()
       if state_name in VACCINATION_SKIP_STATES:
-        continue
+        if "total" in state_name:
+          count = int(count_str)
+          data[date]["TT"]["total"][statistic] = count
+          data[date]["TT"]["meta"]["vaccinated"]["date"] = date
 
       try:
         state = STATE_CODES[state_name]
