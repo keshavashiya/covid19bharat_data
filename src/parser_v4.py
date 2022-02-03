@@ -98,11 +98,23 @@ RAW_DATA_MAP = {
     "deceased": "deceased",
     "migrated_other": "other",
 }
-ICMR_DATA_DICT = {
-    "tested": {
-        "key": "Total Samples Tested",
-        "source": "Source"
-    },
+ICMR_DATA_DICT = { 
+    "tested": { 
+        "key": "Total Samples Tested", 
+        "source": "Source" 
+    }, 
+    "vaccinated1": { 
+        "key": "First Dose Administered", 
+        "source": "Source 4" 
+    }, 
+    "vaccinated2": { 
+        "key": "Second Dose Administered", 
+        "source": "Source 4" 
+    }, 
+    "precautionary": { 
+        "key": "Precautionary Dose Administered", 
+        "source": "Source 4" 
+    }, 
 }
 VACCINATION_DATA_DICT = {
     "vaccinated1": "First Dose Administered",
