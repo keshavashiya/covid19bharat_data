@@ -593,6 +593,7 @@ def parse_state_vaccination(reader):
           count = int(count_str)
           data[date]["TT"]["total"][statistic] = count
           data[date]["TT"]["meta"]["vaccinated"]["date"] = date
+        continue
 
       try:
         state = STATE_CODES[state_name]
