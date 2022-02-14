@@ -92,6 +92,12 @@ These endpoints should be avoided unless none of the above endpoints work for yo
 
 - If you notice issues, have questions or want to suggest enhancements, please raise an issue in the repo.
 
+- *Getting started*
+    - 1. Clone this repository: https://github.com/DataKind-BLR/covid19bharat_data
+    - 2. `npm install` and `pip install -r requirements.txt`
+    - 3. run node src/sheets-to-csv.js - this should generate csv files inside a tmp directory in the root directory.
+
+
 #### Quick Links
 
 A more detailed note of the columns present in the data may be found in the json documentation
