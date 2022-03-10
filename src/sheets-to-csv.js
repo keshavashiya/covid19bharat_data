@@ -53,6 +53,7 @@ const PUBLISHED_SHEET_ID_37 = "2PACX-1vT1nasvyPHE2gVXu14urA6KHXuUzsRXtS3Qr6JORpa
 const PUBLISHED_SHEET_ID_38 = "2PACX-1vRtf-9xJACCy0N6tqWQLEbTswAnX2h7_emrm2yh6-R9hw-AetGiH1PxRSJ9WzLfjAnF0Ci_JCSMvlPy";
 const PUBLISHED_SHEET_ID_39 = "2PACX-1vTY8YlID8IVfSQlwGhJCiIHAdPENfMg-VZcJgehX6qbHaC0EFQm5V_sf1PTeExER5rDqmuPLYfKJ5w7";
 const PUBLISHED_SHEET_ID_40 = "2PACX-1vSF_ALUmANdfmwpMYabrEjJo50Osh107gsmzRBkvuX8MU600ki6en8JjQa7ty9GYAifOG62CGmtSk5M";
+const PUBLISHED_SHEET_ID_41 = "2PACX-1vRTeOY2cQtr_PDYsDgrFCb2qk7zRQeOdOQ2haQF5d5nz-dzjLZG89z3vd-Qr4CNFgoQ1I-Lsw3BEZ-I";
 
 const SHEETS_V1 = [
   ["raw_data1", "0"],
@@ -107,24 +108,31 @@ const SHEETS_V38 = [["raw_data38", "0"]];
 const SHEETS_V39 = [["raw_data39", "0"]];
 const SHEETS_V40 = [
   ["raw_data40", "0"],
+  ["tested_numbers_icmr_data", "2143634168"],
+  ["cowin_vaccine_data_statewise", "1770661428"],
+  ["cowin_vaccine_data_districtwise", "382746758"],
+  ["vaccine_doses_statewise_v2", "1097927328"],
+];
+const SHEETS_V41 = [
+  ["raw_data41", "0"],
   ["state_wise", "1896310216"],
   ["state_wise_daily", "1395461826"],
-  //["sources_list", "704389477"],
   ["district_wise", "227379561"],
   ["statewise_tested_numbers_data", "486127050"],
   ["case_time_series", "387368559"],
-  ["tested_numbers_icmr_data", "2143634168"],
-  // ["travel_history", "1532084277"],
   ["district_list", "1207378023"],
+  ["states_meta", "230208536"],
+  ["districts_meta", "756427239"],
+  //["sources_list", "704389477"],
+  //["tested_numbers_icmr_data", "2143634168"],
+  // ["travel_history", "1532084277"],
   // ['district_testing', '458610673'],
   // ['icmr_labs_statewise','847799380'],
   // ['icmr_rtpcr_tests_daily','1032515506'],
   // ['vaccine_doses_statewise','1601004575'],
-  ["cowin_vaccine_data_statewise", "1770661428"],
-  ["cowin_vaccine_data_districtwise", "382746758"],
-  ["vaccine_doses_statewise_v2", "1097927328"],
-  ["states_meta", "230208536"],
-  ["districts_meta", "756427239"],
+  //["cowin_vaccine_data_statewise", "1770661428"],
+  //["cowin_vaccine_data_districtwise", "382746758"],
+  //["vaccine_doses_statewise_v2", "1097927328"],
 ];
 
 async function sheetsToCSV(sheets, pubId) {
@@ -196,4 +204,5 @@ async function sheetsToCSV(sheets, pubId) {
   await sheetsToCSV(SHEETS_V38, PUBLISHED_SHEET_ID_38);
   await sheetsToCSV(SHEETS_V39, PUBLISHED_SHEET_ID_39);
   await sheetsToCSV(SHEETS_V40, PUBLISHED_SHEET_ID_40);
+  await sheetsToCSV(SHEETS_V41, PUBLISHED_SHEET_ID_41);
 })();
