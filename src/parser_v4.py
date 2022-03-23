@@ -12,6 +12,7 @@ import os
 from dotenv import load_dotenv
 import traceback
 from pathlib import Path
+from rich.logging import RichHandler
 
 load_dotenv()
 
@@ -19,9 +20,8 @@ ROOT_DIR = Path(__file__).parents[2]
 print(ROOT_DIR)
 
 # Set logging level
-logging.basicConfig(stream=sys.stdout,
-                    format="%(message)s",
-                    level=logging.INFO)
+logging.basicConfig(format="%(message)s",
+                    level=logging.INFO,  handlers=[RichHandler()])
 
 # Current date in India
 INDIA_DATETIME = datetime.utcnow() + timedelta(hours=5, minutes=30)
@@ -53,6 +53,7 @@ STATE_TEST_DATA = CSV_DIR / "statewise_tested_numbers_data.csv"
 DISTRICT_TEST_DATA = CSV_DIR / "district_testing.csv"
 STATE_VACCINATION_DATA = CSV_DIR / "vaccine_doses_statewise_v2.csv"
 DISTRICT_VACCINATION_DATA = CSV_DIR / "cowin_vaccine_data_districtwise.csv"
+DISTRICT_VACCINATION_DATA_V2 = CSV_DIR / "cowin_vaccine_data_districtwise_v2.csv"
 # Old data.json
 DATA_OLD = ROOT_DIR / "tmp" / "data-old.min.json"
 print(DATA_OLD)
@@ -120,7 +121,6 @@ VACCINATION_DATA_DICT = {
     "vaccinated1": "First Dose Administered",
     "vaccinated2": "Second Dose Administered",
     "precautionary": "Precautionary Dose Administered",
-
 }
 ALL_STATISTICS = [*RAW_DATA_MAP.values(), *ICMR_DATA_DICT.keys()]
 # CSV Headers
@@ -600,6 +600,10 @@ def parse_state_vaccination(reader):
 
       state_name = entry["State"].strip().lower()
       if state_name in VACCINATION_SKIP_STATES:
+        if "total" in state_name:
+          count = int(count_str)
+          data[date]["TT"]["total"][statistic] = count
+          data[date]["TT"]["meta"]["vaccinated"]["date"] = date
         continue
 
       try:
@@ -1178,189 +1182,272 @@ if __name__ == "__main__":
     logging.info("PARSER V4 START".center(PRINT_WIDTH))
 
     # Get possible state codes, populations
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Parsing state metadata...")
-    with open(STATE_META_DATA) as f:
-      logging.info(f"File: {STATE_META_DATA.name}")
-      reader = csv.DictReader(f)
-      parse_state_metadata(reader)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Parsing state metadata...")
+      with open(STATE_META_DATA) as f:
+        logging.info(f"File: {STATE_META_DATA.name}")
+        reader = csv.DictReader(f)
+        parse_state_metadata(reader)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Get all actual district names
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Parsing districts list...")
-    with open(DISTRICT_LIST) as f:
-      logging.info(f"File: {DISTRICT_LIST.name}")
-      reader = csv.DictReader(f)
-      parse_district_list(reader)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Parsing districts list...")
+      with open(DISTRICT_LIST) as f:
+        logging.info(f"File: {DISTRICT_LIST.name}")
+        reader = csv.DictReader(f)
+        parse_district_list(reader)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing districts list - {e}")
 
     # Get district populations
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Parsing district metadata...")
-    with open(DISTRICT_META_DATA) as f:
-      logging.info(f"File: {DISTRICT_META_DATA.name}")
-      reader = csv.DictReader(f)
-      parse_district_metadata(reader)
-    logging.info("Done!")
-
-    # Parse raw_data's
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Parsing raw_data...")
-    i = 1
-    while True:
-      fn = CSV_DIR / RAW_DATA.format(n=i)
-      if not fn.is_file():
-        break
-      with open(fn) as f:
-        logging.info(f"File: {fn.name}")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Parsing district metadata...")
+      with open(DISTRICT_META_DATA) as f:
+        logging.info(f"File: {DISTRICT_META_DATA.name}")
         reader = csv.DictReader(f)
-        parse_raw_data(reader, i)
-      i += 1
-    logging.info("Done!")
+        parse_district_metadata(reader)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing district metadata - {e}")
+
+    try:
+      # Parse raw_data's
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Parsing raw_data...")
+      i = 1
+      while True:
+        fn = CSV_DIR / RAW_DATA.format(n=i)
+        if not fn.is_file():
+          break
+        with open(fn) as f:
+          logging.info(f"File: {fn.name}")
+          reader = csv.DictReader(f)
+          parse_raw_data(reader, i)
+        i += 1
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing raw_data - {e}")
 
     # Parse additional deceased/recovered info not in raw_data 1 and 2
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Parsing deaths_recoveries...")
-    for i in [1, 2]:
-      fn = CSV_DIR / OUTCOME_DATA.format(n=i)
-      with open(fn) as f:
-        logging.info(f"File: {fn.name}")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Parsing deaths_recoveries...")
+      for i in [1, 2]:
+        fn = CSV_DIR / OUTCOME_DATA.format(n=i)
+        with open(fn) as f:
+          logging.info(f"File: {fn.name}")
+          reader = csv.DictReader(f)
+          parse_outcome(reader, i)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing deaths_recoveries - {e}")
+
+
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Adding district data for 26th April...")
+      # Parse gospel district data for 26th April
+      with open(DISTRICT_DATA_GOSPEL) as f:
+        logging.info(f"File: {DISTRICT_DATA_GOSPEL.name}")
         reader = csv.DictReader(f)
-        parse_outcome(reader, i)
-    logging.info("Done!")
+        parse_district_gospel(reader)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Adding district data for 26th April. - {e}")
 
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Adding district data for 26th April...")
-    # Parse gospel district data for 26th April
-    with open(DISTRICT_DATA_GOSPEL) as f:
-      logging.info(f"File: {DISTRICT_DATA_GOSPEL.name}")
-      reader = csv.DictReader(f)
-      parse_district_gospel(reader)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Parsing ICMR test data for India...")
+      with open(ICMR_TEST_DATA) as f:
+        logging.info(f"File: {ICMR_TEST_DATA.name}")
+        reader = csv.DictReader(f)
+        parse_icmr(reader)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing ICMR test data for India - {e}")
 
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Parsing ICMR test data for India...")
-    with open(ICMR_TEST_DATA) as f:
-      logging.info(f"File: {ICMR_TEST_DATA.name}")
-      reader = csv.DictReader(f)
-      parse_icmr(reader)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Parsing test data for all states...")
+      with open(STATE_TEST_DATA) as f:
+        logging.info(f"File: {STATE_TEST_DATA.name}")
+        reader = csv.DictReader(f)
+        parse_state_test(reader)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing test data for all states - {e}")
 
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Parsing test data for all states...")
-    with open(STATE_TEST_DATA) as f:
-      logging.info(f"File: {STATE_TEST_DATA.name}")
-      reader = csv.DictReader(f)
-      parse_state_test(reader)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Parsing test data for districts...")
+      with open(DISTRICT_TEST_DATA) as f:
+        logging.info(f"File: {DISTRICT_TEST_DATA.name}")
+        reader = csv.reader(f)
+        parse_district_test(reader)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing test data for districts - {e}")
 
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Parsing test data for districts...")
-    with open(DISTRICT_TEST_DATA) as f:
-      logging.info(f"File: {DISTRICT_TEST_DATA.name}")
-      reader = csv.reader(f)
-      parse_district_test(reader)
-    logging.info("Done!")
 
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Parsing vaccination data for states...")
-    with open(STATE_VACCINATION_DATA) as f:
-      logging.info(f"File: {STATE_VACCINATION_DATA.name}")
-      reader = csv.DictReader(f)
-      parse_state_vaccination(reader)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Parsing vaccination data for states...")
+      with open(STATE_VACCINATION_DATA) as f:
+        logging.info(f"File: {STATE_VACCINATION_DATA.name}")
+        reader = csv.DictReader(f)
+        parse_state_vaccination(reader)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing vaccination data for states - {e}")
 
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Parsing vaccination data for districts...")
-    with open(DISTRICT_VACCINATION_DATA) as f:
-      logging.info(f"File: {DISTRICT_VACCINATION_DATA.name}")
-      reader = csv.reader(f)
-      parse_district_vaccination(reader)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Parsing vaccination data for districts...")
+      with open(DISTRICT_VACCINATION_DATA) as f:
+        logging.info(f"File: {DISTRICT_VACCINATION_DATA.name}")
+        reader = csv.reader(f)
+        parse_district_vaccination(reader)
+      with open(DISTRICT_VACCINATION_DATA_V2) as f:
+        logging.info(f"File: {DISTRICT_VACCINATION_DATA_V2.name}")
+        reader = csv.reader(f)
+        parse_district_vaccination(reader)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing vaccination data for districts - {e}")
 
     # Fill delta values for tested
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Generating daily tested/vaccinated values...")
-    fill_deltas()
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Generating daily tested/vaccinated values...")
+      fill_deltas()
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Generating daily tested/vaccinated values - {e}")
+
 
     # Generate total (cumulative) data points till 26th April
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Generating cumulative CRD values till 26th April...")
-    accumulate(end_date=GOSPEL_DATE)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Generating cumulative CRD values till 26th April...")
+      accumulate(end_date=GOSPEL_DATE)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Generating cumulative CRD values till 26th April - {e}")
+
 
     # Fill Unknown district counts for 26th April
-    logging.info("-" * PRINT_WIDTH)
-    logging.info(f"Filling {UNKNOWN_DISTRICT_KEY} data for 26th April...")
-    fill_gospel_unknown()
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info(f"Filling {UNKNOWN_DISTRICT_KEY} data for 26th April...")
+      fill_gospel_unknown()
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Filling {UNKNOWN_DISTRICT_KEY} data for 26th April - {e}")
 
     # Generate rest of total (cumulative) data points
-    logging.info("-" * PRINT_WIDTH)
-    logging.info(
-        "Generating cumulative CRD values from 26th April afterwards...")
-    accumulate(start_after_date=GOSPEL_DATE)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info(
+          "Generating cumulative CRD values from 26th April afterwards...")
+      accumulate(start_after_date=GOSPEL_DATE)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Generating cumulative CRD values from 26th April afterwards - {e}")
 
     # Generate 7 day delta values
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Generating 7-day delta values...")
-    accumulate_days(7)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Generating 7-day delta values...")
+      accumulate_days(7)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Generating 7-day delta values - {e}")
+
 
     # Generate 14-21 day confirmed delta values
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Generating 14-21 day confirmed delta values...")
-    accumulate_days(21, offset=14, statistics=["confirmed"])
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Generating 14-21 day confirmed delta values...")
+      accumulate_days(21, offset=14, statistics=["confirmed"])
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Generating 14-21 day confirmed delta values - {e}")
+
 
     # Strip empty values ({}, 0, '', None) before adding metadata
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Stripping empty values...")
-    data = stripper(data)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Stripping empty values...")
+      data = stripper(data)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing state metadata - {e}")
+
 
     # Add population figures
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Adding state/district populations...")
-    add_populations()
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Adding state/district populations...")
+      add_populations()
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Add state notes
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Adding state and district notes...")
-    with open(STATE_WISE) as f:
-      logging.info(f"File: {STATE_WISE.name}")
-      reader = csv.DictReader(f)
-      add_state_notes(reader)
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Adding state and district notes...")
+      with open(STATE_WISE) as f:
+        logging.info(f"File: {STATE_WISE.name}")
+        reader = csv.DictReader(f)
+        add_state_notes(reader)
+    except Exception as e:
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Add district notes
-    with open(DISTRICT_WISE) as f:
-      logging.info(f"File: {DISTRICT_WISE.name}")
-      reader = csv.DictReader(f)
-      add_district_notes(reader)
-    logging.info("Done!")
+    try:
+      with open(DISTRICT_WISE) as f:
+        logging.info(f"File: {DISTRICT_WISE.name}")
+        reader = csv.DictReader(f)
+        add_district_notes(reader)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Add last updated time for states
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Adding last updated time for states...")
-    with open(DATA_OLD) as f:
-      logging.info(f"File: {DATA_OLD.name}")
-      data_old = json.load(f, )
-      add_state_last_updated(data_old)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Adding last updated time for states...")
+      with open(DATA_OLD) as f:
+        logging.info(f"File: {DATA_OLD.name}")
+        data_old = json.load(f, )
+        add_state_last_updated(data_old)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Generate timeseries
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Generating timeseries...")
-    generate_timeseries(districts=True)
-    logging.info("Done!")
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Generating timeseries...")
+      generate_timeseries(districts=True)
+      logging.info("Done!")
+    except Exception as e:
+      logging.error(f"Error in Parsing state metadata - {e}")
 
-    logging.info("-" * PRINT_WIDTH)
-    logging.info("Dumping JSON APIs...")
-    OUTPUT_MIN_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+      logging.info("-" * PRINT_WIDTH)
+      logging.info("Dumping JSON APIs...")
+      OUTPUT_MIN_DIR.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Dump prettified full data json
     #  fn = f"{OUTPUT_DATA_PREFIX}-all"
@@ -1455,4 +1542,4 @@ if __name__ == "__main__":
     logging.info("-" * PRINT_WIDTH)
 
   except Exception as err:
-    traceback.print_tb(err.__traceback__)
+    logging.error("Error in Parsing V4 - {err}")
