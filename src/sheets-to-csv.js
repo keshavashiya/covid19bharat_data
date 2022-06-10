@@ -54,6 +54,7 @@ const PUBLISHED_SHEET_ID_38 = "2PACX-1vRtf-9xJACCy0N6tqWQLEbTswAnX2h7_emrm2yh6-R
 const PUBLISHED_SHEET_ID_39 = "2PACX-1vTY8YlID8IVfSQlwGhJCiIHAdPENfMg-VZcJgehX6qbHaC0EFQm5V_sf1PTeExER5rDqmuPLYfKJ5w7";
 const PUBLISHED_SHEET_ID_40 = "2PACX-1vSF_ALUmANdfmwpMYabrEjJo50Osh107gsmzRBkvuX8MU600ki6en8JjQa7ty9GYAifOG62CGmtSk5M";
 const PUBLISHED_SHEET_ID_41 = "2PACX-1vRTeOY2cQtr_PDYsDgrFCb2qk7zRQeOdOQ2haQF5d5nz-dzjLZG89z3vd-Qr4CNFgoQ1I-Lsw3BEZ-I";
+const PUBLISHED_SHEET_ID_42 = "2PACX-1vTpmtqBFUiN8sqfY8n0FDW52y2hrY1hoovj3xAd9NpU3LS3xssSwodXGvH7ul7u2ZhZWYwnJqIIXTT9";
 
 const SHEETS_V1 = [
   ["raw_data1", "0"],
@@ -114,8 +115,9 @@ const SHEETS_V40 = [
   ["cowin_vaccine_data_districtwise", "382746758"],
   ["cowin_vaccine_data_districtwise_v2", "2073490247"],
 ];
-const SHEETS_V41 = [
-  ["raw_data41", "0"],
+const SHEETS_V41 = [["raw_data41", "0"]];
+const SHEETS_V42 = [
+  ["raw_data42", "0"],
   ["state_wise", "1896310216"],
   ["state_wise_daily", "1395461826"],
   ["district_wise", "227379561"],
@@ -206,4 +208,5 @@ async function sheetsToCSV(sheets, pubId) {
   await sheetsToCSV(SHEETS_V39, PUBLISHED_SHEET_ID_39);
   await sheetsToCSV(SHEETS_V40, PUBLISHED_SHEET_ID_40);
   await sheetsToCSV(SHEETS_V41, PUBLISHED_SHEET_ID_41);
+  await sheetsToCSV(SHEETS_V42, PUBLISHED_SHEET_ID_42);
 })();
