@@ -53,6 +53,7 @@ STATE_TEST_DATA = CSV_DIR / "statewise_tested_numbers_data.csv"
 DISTRICT_TEST_DATA = CSV_DIR / "district_testing.csv"
 STATE_VACCINATION_DATA = CSV_DIR / "vaccine_doses_statewise_v2.csv"
 DISTRICT_VACCINATION_DATA = CSV_DIR / "cowin_vaccine_data_districtwise.csv"
+DISTRICT_VACCINATION_DATA_V2 = CSV_DIR / "cowin_vaccine_data_districtwise_v2.csv"
 # Old data.json
 DATA_OLD = ROOT_DIR / "tmp" / "data-old.min.json"
 print(DATA_OLD)
@@ -98,30 +99,28 @@ RAW_DATA_MAP = {
     "deceased": "deceased",
     "migrated_other": "other",
 }
-ICMR_DATA_DICT = { 
-    "tested": { 
-        "key": "Total Samples Tested", 
-        "source": "Source" 
-    }, 
-    "vaccinated1": { 
-        "key": "First Dose Administered", 
-        "source": "Source 4" 
-    }, 
-    "vaccinated2": { 
-        "key": "Second Dose Administered", 
-        "source": "Source 4" 
-    }, 
-    "precautionary": { 
-        "key": "Precautionary Dose Administered", 
-        "source": "Source 4" 
-    }, 
+ICMR_DATA_DICT = {
+    "tested": {
+        "key": "Total Samples Tested",
+        "source": "Source"
+    },
+    "vaccinated1": {
+        "key": "First Dose Administered",
+        "source": "Source 4"
+    },
+    "vaccinated2": {
+        "key": "Second Dose Administered",
+        "source": "Source 4"
+    },
+    "precautionary": {
+        "key": "Precautionary Dose Administered",
+        "source": "Source 4"
+    },
 }
 VACCINATION_DATA_DICT = {
     "vaccinated1": "First Dose Administered",
     "vaccinated2": "Second Dose Administered",
     "precautionary": "Precautionary Dose Administered",
-    "totaldose": "Total Doses Administered",
-
 }
 ALL_STATISTICS = [*RAW_DATA_MAP.values(), *ICMR_DATA_DICT.keys()]
 # CSV Headers
@@ -1250,7 +1249,7 @@ if __name__ == "__main__":
     except Exception as e:
       logging.error(f"Error in Parsing deaths_recoveries - {e}")
 
-    
+
     try:
       logging.info("-" * PRINT_WIDTH)
       logging.info("Adding district data for 26th April...")
@@ -1296,7 +1295,7 @@ if __name__ == "__main__":
     except Exception as e:
       logging.error(f"Error in Parsing test data for districts - {e}")
 
-    
+
     try:
       logging.info("-" * PRINT_WIDTH)
       logging.info("Parsing vaccination data for states...")
@@ -1313,6 +1312,10 @@ if __name__ == "__main__":
       logging.info("Parsing vaccination data for districts...")
       with open(DISTRICT_VACCINATION_DATA) as f:
         logging.info(f"File: {DISTRICT_VACCINATION_DATA.name}")
+        reader = csv.reader(f)
+        parse_district_vaccination(reader)
+      with open(DISTRICT_VACCINATION_DATA_V2) as f:
+        logging.info(f"File: {DISTRICT_VACCINATION_DATA_V2.name}")
         reader = csv.reader(f)
         parse_district_vaccination(reader)
       logging.info("Done!")
@@ -1356,7 +1359,7 @@ if __name__ == "__main__":
       accumulate(start_after_date=GOSPEL_DATE)
       logging.info("Done!")
     except Exception as e:
-      logging.error(f"Error in Generating cumulative CRD values from 26th April afterwards - {e}")      
+      logging.error(f"Error in Generating cumulative CRD values from 26th April afterwards - {e}")
 
     # Generate 7 day delta values
     try:
@@ -1365,7 +1368,7 @@ if __name__ == "__main__":
       accumulate_days(7)
       logging.info("Done!")
     except Exception as e:
-      logging.error(f"Error in Generating 7-day delta values - {e}") 
+      logging.error(f"Error in Generating 7-day delta values - {e}")
 
 
     # Generate 14-21 day confirmed delta values
@@ -1375,7 +1378,7 @@ if __name__ == "__main__":
       accumulate_days(21, offset=14, statistics=["confirmed"])
       logging.info("Done!")
     except Exception as e:
-      logging.error(f"Error in Generating 14-21 day confirmed delta values - {e}") 
+      logging.error(f"Error in Generating 14-21 day confirmed delta values - {e}")
 
 
     # Strip empty values ({}, 0, '', None) before adding metadata
@@ -1385,7 +1388,7 @@ if __name__ == "__main__":
       data = stripper(data)
       logging.info("Done!")
     except Exception as e:
-      logging.error(f"Error in Parsing state metadata - {e}") 
+      logging.error(f"Error in Parsing state metadata - {e}")
 
 
     # Add population figures
@@ -1395,7 +1398,7 @@ if __name__ == "__main__":
       add_populations()
       logging.info("Done!")
     except Exception as e:
-      logging.error(f"Error in Parsing state metadata - {e}") 
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Add state notes
     try:
@@ -1406,7 +1409,7 @@ if __name__ == "__main__":
         reader = csv.DictReader(f)
         add_state_notes(reader)
     except Exception as e:
-      logging.error(f"Error in Parsing state metadata - {e}") 
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Add district notes
     try:
@@ -1416,7 +1419,7 @@ if __name__ == "__main__":
         add_district_notes(reader)
       logging.info("Done!")
     except Exception as e:
-      logging.error(f"Error in Parsing state metadata - {e}") 
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Add last updated time for states
     try:
@@ -1428,7 +1431,7 @@ if __name__ == "__main__":
         add_state_last_updated(data_old)
       logging.info("Done!")
     except Exception as e:
-      logging.error(f"Error in Parsing state metadata - {e}") 
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Generate timeseries
     try:
@@ -1437,14 +1440,14 @@ if __name__ == "__main__":
       generate_timeseries(districts=True)
       logging.info("Done!")
     except Exception as e:
-      logging.error(f"Error in Parsing state metadata - {e}") 
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     try:
       logging.info("-" * PRINT_WIDTH)
       logging.info("Dumping JSON APIs...")
       OUTPUT_MIN_DIR.mkdir(parents=True, exist_ok=True)
     except Exception as e:
-      logging.error(f"Error in Parsing state metadata - {e}") 
+      logging.error(f"Error in Parsing state metadata - {e}")
 
     # Dump prettified full data json
     #  fn = f"{OUTPUT_DATA_PREFIX}-all"
